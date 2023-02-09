@@ -347,3 +347,18 @@ template {
 [hidden] {
   display: none;
 }
+
+* {
+  scrollbar-width: 0px;
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+a{
+  color: unset;
+  text-decoration: none;
+}
+
