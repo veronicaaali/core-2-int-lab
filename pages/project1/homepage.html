@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.css"
+    />
+    <title>IN PRAISE OF SHADOWS</title>
+  </head>
+  <style>
+    @font-face {
+      font-family: 'Qanelas Soft DEMO';
+      src: url('./fonts/QanelasSoftDEMO-UltraLight.eot');
+      src: url('./fonts/QanelasSoftDEMO-UltraLight.eot?#iefix')
+          format('embedded-opentype'),
+        url('./fonts/QanelasSoftDEMO-UltraLight.woff2') format('woff2'),
+        url('./fonts/QanelasSoftDEMO-UltraLight.woff') format('woff'),
+        url('./fonts/QanelasSoftDEMO-UltraLight.ttf') format('truetype'),
+        url('./fonts/QanelasSoftDEMO-UltraLight.svg#QanelasSoftDEMO-UltraLight')
+          format('svg');
+      font-weight: 200;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Qanelas Soft DEMO Bold';
+      src: url('./fonts/QanelasSoftDEMO-ExtraBold.eot');
+      src: url('./fonts/QanelasSoftDEMO-ExtraBold.eot?#iefix')
+          format('embedded-opentype'),
+        url('./fonts/QanelasSoftDEMO-ExtraBold.woff2') format('woff2'),
+        url('./fonts/QanelasSoftDEMO-ExtraBold.woff') format('woff'),
+        url('./fonts/QanelasSoftDEMO-ExtraBold.ttf') format('truetype'),
+        url('./fonts/QanelasSoftDEMO-ExtraBold.svg#QanelasSoftDEMO-ExtraBold')
+          format('svg');
+      font-weight: bold;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    .background-video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+      opacity: 100%;
+    }
+    .home-menu {
+      margin: 50px 0 0 50px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 3vw;
+      position: relative;
+      z-index: 999;
+    }
+    .home-menu:hover {
+      color: #000;
+    }
+    .container-center {
+      margin: 200px auto;
+      text-align: center;
+      font-size: 5vw;
+      letter-spacing: 17px;
+      position: relative;
+      z-index: 999;
+    }
+    @keyframes text {
+      0% {
+        color: #fff;
+        opacity: 0.5;
+      }
+      100% {
+        color: #000;
+        opacity: 1;
+      }
+    }
+    .container-center .en {
+      position: absolute;
+      width: 100vw;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Qanelas Soft DEMO';
+      color: #ffff;
+      animation: text 15s linear 5s;
+      animation-fill-mode: forwards;
+    }
+    .container-center .cn {
+      position: absolute;
+      opacity: 0.5;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .container-center .cn img {
+      width: 950px;
+    }
+    @keyframes move {
+      0% {
+        left: -300px;
+      }
+      100% {
+        left: 1920px;
+      }
+    }
+    .circle {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: #fff;
+      position: fixed;
+      top: 260px;
+      left: -300px;
+      z-index: 666;
+      /* animation: move 6s linear 7s; */
+    }
+    .arrow-right {
+      position: fixed;
+      top: 50%;
+      right: 150px;
+      transform: translateY(-50%);
+      font-size: 30px;
+      opacity: 0;
+    }
+    .table-fake {
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100vw;
+      height: 100vh;
+    }
+    .table-fake div {
+      width: calc(33.33% - 2px);
+      height: 50%;
+      border: 1px solid #fff;
+      color: #fff;
+      text-align: center;
+      font-size: 3vw;
+      line-height: 50vh;
+    }
+  </style>
+  <body>
+    <video
+      class="background-video"
+      autoplay=""
+      muted=""
+      poster="video/light_shadow_home.mp4"
+    >
+      <source src="video/back2.mp4" video="" />
+    </video>
+    <i class="fa fa-bars home-menu" aria-hidden="true"></i>
+    <div class="container-center">
+      <div class="en">
+        In Praise of Shadows<i
+          class="fa-solid fa-chevron-right arrow-right"
+          id="nextpage"
+        ></i>
+      </div>
+      <div class="cn">
+        <img src="./assets/text.png" />
+      </div>
+      <!-- <div class="cn">陰翳礼讃</div> -->
+    </div>
+    <div class="circle" id="circle"></div>
+    <!-- <div class="table-fake">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+    </div> -->
+  </body>
+</html>
+<script>
+  window.onload = function () {
+    const nextbtn = document.getElementById('nextpage')
+    setTimeout(function () {
+      nextbtn.style.opacity = 1
+      document.onmousemove = function (event) {
+        let x = event.clientX - 150
+        let y = event.clientY - 150
+        let cicle = document.getElementById('circle')
+        cicle.style.left = x + 'px'
+        cicle.style.top = y + 'px'
+      }
+      document.onmouseleave = function (event) {
+        let cicle = document.getElementById('circle')
+        cicle.style.left = '-300px'
+        cicle.style.top = '-300px'
+      }
+    }, 20000)
+    nextbtn.onclick = function () {
+      window.location.href = './page1.html'
+    }
+  }
+</script>
