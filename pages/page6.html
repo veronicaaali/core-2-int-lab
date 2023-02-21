@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <title>IN PRAISE OF SHADOWS</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.css"
+    />
+    <link href="./fonts/stylesheet.css" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #000;
+        font-family: 'Letter Gothic Std';
+      }
+      .article {
+        color: #fff;
+        line-height: 60px;
+        font-size: 20px;
+        margin: 350px auto 200px;
+        width: 650px;
+        word-break: keep-all;
+      }
+      .back {
+        color: #fff;
+        text-align: center;
+        text-decoration: underline;
+        font-size: 20px;
+        display: none;
+      }
+      .back a {
+        color: #fff;
+      }
+      @media screen and (max-width: 700px) {
+        .article {
+          margin: 150px auto 100px;
+          width: 340px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="article" id="word"></div>
+    <div class="back">
+      <a href="./menu.html">Menu</a><br /><br />
+      <a href="./homepage.html">Home</a>
+    </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    let word = `presently came to discover beauty in shadows, ultimately to guide shadows
+      towards beauty's ends...`
+    let arr = word.split('')
+    let index = 0
+    setInterval(() => {
+      let tmp = $('#word').text()
+      if (index < arr.length - 1) {
+        $('#word').text(tmp + arr[index])
+        index++
+      } else {
+        $('.back').show()
+      }
+    }, 100)
+  })
+</script>
