@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'Letter Gothic Std';
+  src: url('LetterGothicStd.eot');
+  src: url('LetterGothicStd.eot?#iefix') format('embedded-opentype'),
+    url('LetterGothicStd.woff2') format('woff2'),
+    url('LetterGothicStd.woff') format('woff'),
+    url('LetterGothicStd.ttf') format('truetype'),
+    url('LetterGothicStd.svg#LetterGothicStd') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Letter Gothic Std Bold';
+  src: url('LetterGothicStd-Bold.eot');
+  src: url('LetterGothicStd-Bold.eot?#iefix') format('embedded-opentype'),
+    url('LetterGothicStd-Bold.woff2') format('woff2'),
+    url('LetterGothicStd-Bold.woff') format('woff'),
+    url('LetterGothicStd-Bold.ttf') format('truetype'),
+    url('LetterGothicStd-Bold.svg#LetterGothicStd-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Letter Gothic Std Itl';
+  src: url('LetterGothicStd-Slanted.eot');
+  src: url('LetterGothicStd-Slanted.eot?#iefix') format('embedded-opentype'),
+    url('LetterGothicStd-Slanted.woff2') format('woff2'),
+    url('LetterGothicStd-Slanted.woff') format('woff'),
+    url('LetterGothicStd-Slanted.ttf') format('truetype'),
+    url('LetterGothicStd-Slanted.svg#LetterGothicStd-Slanted') format('svg');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+.home-menu {
+  margin: 50px 0 0 50px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 3vw;
+  position: relative;
+  z-index: 999;
+}

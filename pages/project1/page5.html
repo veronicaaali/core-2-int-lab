@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./fonts/stylesheet.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.css"
+    />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <title>IN PRAISE OF SHADOWS</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #000;
+        font-family: 'Letter Gothic Std';
+        cursor: url('http://99.16.9.242:8080/assets/1676880569060_favicon.ico'), pointer;
+      }
+      .background-video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: -1;
+        opacity: 100%;
+      }
+      .article {
+        margin: 0;
+        padding: 100px 300px;
+        color: #fff;
+        font-size: 25px;
+        line-height: 35px;
+      }
+      .arrow-right {
+        cursor: pointer;
+        font-size: 30px;
+        color: #fff;
+        float: right;
+        margin: 0 100px 20px 0;
+        text-decoration: underline;
+      }
+      canvas {
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="article">
+      And surely you have seen, in the darkness of the innermost rooms of these
+      huge buildings, to which sunlight never penetrates, how the gold leaf of a
+      sliding door or screen will pick up a distant glimmer from the garden,
+      then suddenly send forth an ethereal glow, a faint golden light cast into
+      the enveloping darkness, like the glow upon the horizon at sunset. In no
+      other setting is gold quite so exquisitely beautiful.
+      <br />
+      <br />
+      You walk past, turning to look again, and yet again; and as you move away
+      the golden surface of the paper glows ever more deeply, changing not in a
+      flash, but growing slowly, steadily brighter, like color rising in the
+      face of a giant. Or again you may find that the gold dust of the
+      background, which until that moment had only a dull, sleepy luster, will,
+      as you move past, suddenly gleam forth as if it had burst into flame.
+      <br />
+      <br />
+      How, in such a dark place, gold draws so much light to itself is a mystery
+      to me. But I see why in ancient times statues of the Buddha were gilt with
+      gold and why gold leaf covered the walls of the homes of the nobility.
+      Modem man, in his well-lit house, knows nothing of the beauty of gold; but
+      those who lived in the dark houses of the past were not merely captivated
+      by its beauty, they also knew its practical value; for gold, in these dim
+      rooms, must have served the function of a reflector. Their use of gold
+      leaf and gold dust was not mere extravagance. Its reflective properties
+      were put to use as a source of illumination. Silver and other metals
+      quickly lose their gloss, but gold retains its brilliance indefinitely to
+      light the darkness of the room. This is why gold was held in such
+      incredibly high esteem.
+    </div>
+    <a href="./page6.html" class="arrow-right"> continue </a>
+    <canvas id="canvas" width="1920" height="1080"></canvas>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    function sub(v1, v2) {
+      return [v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2]]
+    }
+
+    function dot(v1, v2) {
+      return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
+    }
+
+    function normalize(v) {
+      var len = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
+      return [v[0] / len, v[1] / len, v[2] / len]
+    }
+
+    var canvas = document.getElementById('canvas')
+    var ctx = canvas.getContext('2d')
+
+    //canvas pannel
+    var plane = {
+      center: [0, 0, 0],
+      width: 1920,
+      height: 1080,
+      normal: [0, 0, 1],
+      color: { r: 0, g: 0, b: 0 } // light color
+    }
+
+    //init position
+    var pointLight = {
+      position: [250, 250, 60],
+      color: {
+        r: 255,
+        g: 255,
+        b: 255
+      }
+    }
+
+    var imageData = ctx.createImageData(plane.width, plane.height)
+
+    function render() {
+      for (var x = 0; x < imageData.width; x++) {
+        for (var y = 0; y < imageData.height; y++) {
+          var index = y * imageData.width + x
+
+          var position = [x, y, 0]
+          var normal = [0, 0, 1]
+
+          var currentToLight = normalize(sub(pointLight.position, position))
+
+          var light = dot(currentToLight, normal)
+
+          imageData.data[index * 4] = Math.min(
+            255,
+            (pointLight.color.r + plane.color.r) * light
+          )
+          imageData.data[index * 4 + 1] = Math.min(
+            255,
+            (pointLight.color.g + plane.color.g) * light
+          )
+          imageData.data[index * 4 + 2] = Math.min(
+            255,
+            (pointLight.color.b + plane.color.b) * light
+          )
+          imageData.data[index * 4 + 3] = 255
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0)
+    }
+
+    document.addEventListener(
+      'mousemove',
+      function (e) {
+        pointLight.position[0] = e.clientX
+        pointLight.position[1] = e.clientY
+
+        render()
+      },
+      false
+    )
+
+    // document.addEventListener(
+    //   'wheel',
+    //   function (e) {
+    //     pointLight.position[2] += e.deltaY * 0.04
+
+    //     render()
+    //   },
+    //   false
+    // )
+
+    render()
+  })
+</script>
