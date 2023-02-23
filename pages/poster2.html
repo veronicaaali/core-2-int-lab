@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+
+    <link rel="apple-touch-icon" href="/icon.png" />
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+
+    <meta name="theme-color" content="#fafafa" />
+  </head>
+
+  <body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <div class="poster-container">
+      <div class="poster-root" style="background-color: #eedfc2">
+        <div
+          class="poster-item"
+          style="
+            background-color: #006cad;
+            height: 100%;
+            width: 50%;
+            top: 0;
+            right: 0;
+          "
+        ></div>
+        <div
+          class="poster-item"
+          style="
+            background-color: #f5c83b;
+            height: 100%;
+            width: 25%;
+            top: 0;
+            left: 25%;
+          "
+        ></div>
+        <div
+          class="poster-item v-center"
+          style="
+            background-color: #f5c83b;
+            height: 18.75%;
+            width: 56.25%;
+            left: 25%;
+          "
+        ></div>
+        <div
+          class="poster-item"
+          style="
+            background-color: #f10d02;
+            height: 25%;
+            width: 56.25%;
+            top: 0;
+            left: 25%;
+          "
+        ></div>
+        <div
+          class="poster-item circle v-center"
+          style="--radius: 7.5%; left: 5%; background-color: #1d1d1d"
+        ></div>
+        <div
+          class="poster-item circle v-center"
+          style="--radius: 5.875%; left: 39.5%; background-color: #1d1d1d"
+        ></div>
+        <div
+          class="poster-item circle v-center"
+          style="--radius: 5.875%; left: 48.5%; background-color: #1d1d1d"
+        ></div>
+        <div
+          class="poster-item circle v-center"
+          style="--radius: 5.875%; left: 67.5%; background-color: #1d1d1d"
+        ></div>
+        <div class="poster-item v-center stripe" style="left: 61.25%"></div>
+        <div class="poster-item v-center stripe" style="left: 63.25%"></div>
+        <div class="poster-item v-center stripe" style="left: 65.25%"></div>
+        <div
+          class="poster-item square"
+          style="--radius: 25%; background-color: #80c8ba; bottom: 0; left: 5%"
+        ></div>
+        <div
+          class="poster-item circle"
+          style="
+            --radius: 2.875%;
+            background-color: #80c8ba;
+            bottom: 27.5%;
+            left: 5%;
+          "
+        ></div>
+        <div
+          class="poster-item circle red"
+          style="--radius: 2.875%; bottom: 11%; left: 33%"
+        ></div>
+        <div
+          class="poster-item circle red"
+          style="--radius: 2.875%; bottom: 3.25%; left: 33%"
+        ></div>
+        <div
+          class="poster-item circle red"
+          style="--radius: 2.875%; bottom: 3.25%; left: 41.75%"
+        ></div>
+        <img class="poster-item poster-text" src="./poster-text.png" />
+      </div>
+    </div>
+  </body>
+  <script>
+    function destanceTo(x1, y1, x2, y2) {
+      return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+    function centerCoordOfSelector(selector) {
+      var rect = $(selector).offset();
+      var x = rect.left + $(selector).width() / 2;
+      var y = rect.top + $(selector).height() / 2;
+      return [x, y];
+    }
+    function distanceToElement(x, y, elem) {
+      var center = centerCoordOfSelector(elem);
+      return destanceTo(x, y, center[0], center[1]);
+    }
+    $(document).ready(() => {
+      alert("Try moving your mouse!");
+      $(".poster-root").on("mousemove", (e) => {
+        var rootOffset = $(".poster-root").offset();
+        const width = $(".poster-root").width();
+        var x = e.originalEvent.clientX; //x position within the element.
+        // var x = e.originalEvent.clientX - rect.left; //x position within the element.
+        var y = e.originalEvent.clientY; //y position within the element.
+        // var y = e.originalEvent.clientY - rect.top;  //y position within the element.
+        console.log("Left? : " + x + " ; Top? : " + y + ".");
+        console.log(e.originalEvent.originalEvent);
+        $(".circle.v-center").each((index, elem) => {
+          // const currentLeft = $(elem).css("left")
+          const distance = distanceToElement(x, y, elem);
+          const isLeftOfMouse = x < centerCoordOfSelector(elem)[0] ? 1 : -1;
+          const currentXPosition = $(elem).offset().left;
+          $(elem).css({
+            left:
+              (currentXPosition -
+                rootOffset.left +
+                width +
+                3 +
+                (100 * isLeftOfMouse) / distance) %
+              width,
+          });
+        });
+      });
+    });
+  </script>
+</html>

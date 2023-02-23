@@ -273,10 +273,10 @@ textarea {
   width: 100%;
 }
 
-.scroll-x{
+.scroll-x {
   overflow-x: scroll;
 }
-.scroll-y{
+.scroll-y {
   overflow-y: scroll;
 }
 
@@ -286,7 +286,8 @@ h2,
 h3,
 h4,
 h5,
-h6,div,
+h6,
+div,
 html,
 body {
   margin: 0;
@@ -309,7 +310,7 @@ body {
   font-size: 1.2rem;
   margin-top: 8rem;
 }
-#root.index{
+#root.index {
   margin-top: 10rem;
 }
 #root > h1 {
@@ -353,4 +354,53 @@ body {
   top: 3rem;
   right: 3rem;
   font-size: 1.2rem;
+}
+
+.poster-container {
+  position: absolute;
+  width: min(90vw, 90vh);
+  height: min(90vw, 90vh);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.poster-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.poster-item {
+  position: absolute;
+}
+.v-center {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.circle {
+  border-radius: 50%;
+  width: calc(2 * var(--radius));
+  height: calc(2 * var(--radius));
+}
+.circle.v-center {
+  transform: unset;
+  top: calc(50% - var(--radius));
+}
+.stripe {
+  background-color: #f10d02;
+  height: 25%;
+  width: 1.25%;
+}
+.square{
+  height: var(--radius);
+  width: var(--radius);
+}
+.red{
+  background-color: #f10d02;
+}
+.poster-text{
+  max-height: 6.5%;
+  max-width: 47.25%;
+  object-fit: contain;
+  bottom: 3.25%;
+  right: 1.5%;
 }
