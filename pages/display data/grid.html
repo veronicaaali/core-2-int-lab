@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grid</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Display Data</h1>
+    </header>
+    <main id="container"></main>
+  </body>
+</html>
+<script>
+  fetch('./assets/data.json')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      displayData(data)
+    })
+  function rgb() {
+    const r = Math.floor(Math.random() * 256)
+    const g = Math.floor(Math.random() * 256)
+    const b = Math.floor(Math.random() * 256)
+    return `rgb(${r},${g},${b},.5)`
+  }
+  function displayData(data) {
+    data.forEach(function (item, index) {
+      console.log(item, index)
+      let newItem = document.createElement('div')
+      newItem.className = 'icon travel'
+      newItem.innerHTML = `
+        <div class="card" style="background:${rgb()}">
+          <div class="emoji">${item.emoji}</div>
+          <div class="category">${item.description || '-'}</div>
+          <div class="description">${item.update || '-'}</div>
+          <div class="year">${item.year}</div>
+        </div>`
+      container.appendChild(newItem)
+    })
+  }
+</script>
