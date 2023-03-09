@@ -78,10 +78,10 @@ img {
 }
 
 .card {
-  border-radius: 4px;
-  /* width: 250px; */
-  padding: 10px;
-  cursor: pointer;
-  max-width: 250px;
-  min-width: 250px;
+   border-radius: 4px;
+   /* width: 250px; */
+   padding: 10px;
+   cursor: pointer;
+   max-width: 250px;
+   min-width: 250px;
 }
