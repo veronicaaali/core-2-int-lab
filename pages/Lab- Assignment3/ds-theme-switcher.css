@@ -186,10 +186,10 @@ textarea {
 
 
   :root {
-    --bg-color: #ffffff;
+    --bg-color: #F9F1EF;
     --font-color: black;
     --title-color: #0067e6;
-    --title-background: rgb(255, 229, 229);
+    --title-background: rgb(255, 211, 211);
     --main-border: 1px solid rgba(255, 255, 255, 0.4);
     --main-bg: #ffffff;
 
