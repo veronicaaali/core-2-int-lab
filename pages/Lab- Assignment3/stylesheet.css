@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'CHei3PRC-Bold-Roman';
+    src: url('CHei3PRC-Bold-Roman.woff2') format('woff2'),
+        url('CHei3PRC-Bold-Roman.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
