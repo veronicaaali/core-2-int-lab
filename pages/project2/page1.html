@@ -5,12 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/stylesheet.css">
+    <link rel="stylesheet" href="./assets/stylesheet.css" />
+    <script src="./assets/jq.min.js"></script>
+    <script src="./assets/cursoreffects.js"></script>
+    <script src="./assets/cbo.js"></script>
     <style>
       html,
       body {
         padding: 0;
         margin: 0;
+        font-family: 'RVS Basic Demo';
       }
       .head {
         padding-left: 40px;
@@ -18,12 +22,178 @@
         background: #000;
         font-size: 72px;
         color: #fff;
-        font-family: 'RVS Basic Demo';
+      }
+      .choose-box {
+        margin: 100px auto;
+        display: flex;
+        justify-content: center;
+      }
+      .filter-wrap {
+        display: flex;
+        justify-content: center;
+      }
+      .filter-item {
+        position: relative;
+        min-width: 200px;
+        background: #fff;
+        padding: 0 30px 0 20px;
+        margin-right: 60px;
+        height: 46px;
+        border: 1px solid #333;
+        border-radius: 20px;
+        box-sizing: border-box;
+        cursor: pointer;
+      }
+      .filter-item:hover .item-box {
+        display: block;
+      }
+      .filter-item::after {
+        content: '';
+        background: url(./assets/chevron-down-solid.svg) no-repeat;
+        position: absolute;
+        right: 7px;
+        top: 13px;
+        width: 20px;
+        height: 20px;
+      }
+      .selt {
+        font-size: 35px;
+        line-height: 40px;
+      }
+      .item-box {
+        display: none;
+        position: absolute;
+        padding: 25px 0 0;
+        top: 20px;
+        left: -1px;
+        width: calc(100%);
+        border: 1px solid #000;
+        border-top: none;
+        font-size: 22px;
+        border-radius: 0 0 5px 5px;
+      }
+      .item-box span {
+        display: block;
+        background: #fff;
+        padding: 0 15px;
+        line-height: 37px;
+      }
+      .item-box span:last-child {
+        border-radius: 0 0 5px 5px;
+      }
+      .item-box span:hover {
+        background: #ddd;
+      }
+      .grid-containr {
+        display: grid;
+        padding: 0 30px;
+        grid-template-columns: repeat(4, 1fr);
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+      }
+      .msg-box {
+        margin: 20px;
+        justify-content: center;
+        display: flex;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
     <div class="head">今天吃什么。</div>
-    <div class="body"></div>
+    <div class="body">
+      <div class="choose-box">
+        <div class="filter-wrap">
+          <!-- before -->
+          <div class="filter-item">
+            <div class="selt">Genre</div>
+            <div class="item-box">
+              <span>Dessert</span>
+              <span>Lunch Dinner</span>
+              <span>Potlock</span>
+              <span>Dairy-Free</span>
+              <span>Vegtarian</span>
+              <span>Beverage</span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="selt">Occasion</div>
+            <div class="item-box">
+              <span>Party</span>
+              <span>Dating</span>
+              <span>Movie Night</span>
+              <span>Fitness</span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="selt">Time Spent</div>
+            <div class="item-box">
+              <span>～ 30mins</span>
+              <span>30 - 1h</span>
+              <span>1-2h</span>
+              <span>>2h</span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="selt">Servings</div>
+            <div class="item-box">
+              <span>1</span>
+              <span>1-2</span>
+              <span>2-3</span>
+              <span>3-4</span>
+              <span>>4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-containr">
+        <div class="msg-box">
+          <div class="card">
+            <div class="emoji">🌄</div>
+            <div class="category">Sunrise over mountains</div>
+            <div class="description">SSun, Mountains, Early Morning</div>
+            <div class="year">xxx</div>
+          </div>
+        </div>
+        <div class="msg-box">
+          <div class="card">
+            <div class="emoji">🌄</div>
+            <div class="category">Sunrise over mountains</div>
+            <div class="description">SSun, Mountains, Early Morning</div>
+            <div class="year">xxx</div>
+          </div>
+        </div>
+        <div class="msg-box">
+          <div class="card">
+            <div class="emoji">🌄</div>
+            <div class="category">Sunrise over mountains</div>
+            <div class="description">SSun, Mountains, Early Morning</div>
+            <div class="year">xxx</div>
+          </div>
+        </div>
+        <div class="msg-box">
+          <div class="card">
+            <div class="emoji">🌄</div>
+            <div class="category">Sunrise over mountains</div>
+            <div class="description">SSun, Mountains, Early Morning</div>
+            <div class="year">xxx</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+<script>
+  $(document).ready(function () {
+    $('.item-box > span').click(function (e) {
+      const value = $(this).attr('value')
+      const curSeltDom = $(this).parents('.filter-item').find('.selt')
+      curSeltDom.text($(this).text())
+    })
+    // mousescroll
+    $('.msg-box').click(() => {
+      window.location.href = './page2.html'
+    })
+  })
+</script>

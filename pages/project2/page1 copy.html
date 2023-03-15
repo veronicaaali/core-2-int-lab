@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/stylesheet.css" />
+    <script src="./assets/jq.min.js"></script>
+    <script src="./assets/cursoreffects.js"></script>
+    <script src="./assets/cbo.js"></script>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .head {
+        padding-left: 40px;
+        line-height: 135px;
+        background: #000;
+        font-size: 72px;
+        color: #fff;
+        font-family: 'RVS Basic Demo';
+      }
+      .choose-box {
+        margin: 100px auto;
+        display: flex;
+        justify-content: center;
+      }
+      .filter-wrap {
+        display: flex;
+        position: relative;
+        width: 800px;
+        padding: 20px 0;
+        height: 200px;
+        border-radius: 20px;
+        background: #fff;
+        border: 2px solid #9f9191;
+        justify-content: center;
+        font-family: 'RVS Basic Demo';
+      }
+      .filter-wrap::before {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid #9f9191;
+      }
+      .filter-wrap::after {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%) rotate(-90deg);
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid #9f9191;
+      }
+      .filter-item {
+        display: flex;
+        width: 150px;
+        background: #ddd;
+        color: #333;
+        border-right: 3px solid #cfc9c9;
+        padding: 10px;
+        justify-content: center;
+      }
+      .item-box {
+        overflow: hidden;
+        width: 100%;
+      }
+      .item-box span {
+        display: block;
+        position: relative;
+        text-align: center;
+        height: 180px;
+        font-size: 25px;
+        word-break: break-all;
+      }
+      .item-box span i {
+        position: absolute;
+        font-style: normal;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+      }
+      .filter-item:first-child {
+        border-radius: 10px 0 0 10px;
+      }
+      .filter-item:last-child {
+        border: none;
+        border-radius: 0 10px 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas
+      width="789"
+      height="929"
+      style="top: 0px; left: 0px; pointer-events: none; position: fixed"
+    ></canvas>
+    <div class="head">今天吃什么。</div>
+    <div class="body">
+      <div class="choose-box">
+        <div class="filter-wrap">
+          <!-- before -->
+          <div class="filter-item">
+            <div class="item-box">
+              <span><i>Dessert</i></span>
+              <span><i>Lunch</i></span>
+              <span><i>Dinner</i></span>
+              <span><i>Potlock</i></span>
+              <span><i>Dairy-Free</i></span>
+              <span><i>Vegtarian</i></span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="item-box">
+              <span><i>Occasion</i></span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="item-box">
+              <span><i>Time Spent</i></span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="item-box">
+              <span><i>Servings</i></span>
+            </div>
+          </div>
+          <!-- after -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
