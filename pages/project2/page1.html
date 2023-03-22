@@ -71,6 +71,7 @@
         border-top: none;
         font-size: 22px;
         border-radius: 0 0 5px 5px;
+        z-index: 99;
       }
       .item-box span {
         display: block;
@@ -81,22 +82,85 @@
       .item-box span:last-child {
         border-radius: 0 0 5px 5px;
       }
+      .item-box span.active {
+        font-weight: bolder;
+        background: #ddd;
+      }
       .item-box span:hover {
         background: #ddd;
       }
       .grid-containr {
-        display: grid;
-        padding: 0 30px;
-        grid-template-columns: repeat(4, 1fr);
-        text-align: center;
-        justify-content: center;
-        align-items: center;
+        width: 1400px;
+        margin: 0 auto;
       }
       .msg-box {
         margin: 20px;
-        justify-content: center;
         display: flex;
         cursor: pointer;
+        overflow: hidden;
+      }
+      .card-warp {
+        width: 2000px;
+        display: flex;
+      }
+      #row1 {
+        animation: move 10s linear 1s infinite;
+      }
+      #row2 {
+        transform: translate(-1536px, 0);
+        animation: move2 10s linear 1s infinite;
+      }
+      .card-warp:hover {
+        animation-play-state: paused !important;
+      }
+      .card {
+        padding: 17px;
+        border: 1px solid #000;
+        text-align: left;
+        border-radius: 17px;
+        line-height: 22px;
+        margin-right: 20px;
+        word-break: break-all;
+      }
+      .card .photo {
+        background: #ddd;
+        width: 200px;
+        height: 200px;
+        margin-bottom: 10px;
+      }
+
+      /* 236+20 */
+      @keyframes move {
+        from {
+          transform: translate(0, 0);
+        }
+        to {
+          transform: translate(-1536px, 0);
+        }
+      }
+
+      @keyframes move2 {
+        from {
+          transform: translate(-1536px, 0);
+        }
+        to {
+          transform: translate(0, 0);
+        }
+      }
+      .gird-layout {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        width: 1400px;
+      }
+      .gird-layout .card {
+        width: 236px;
+        box-sizing: border-box;
+        min-height: 334px;
+        margin-bottom: 30px;
       }
     </style>
   </head>
@@ -108,7 +172,7 @@
           <!-- before -->
           <div class="filter-item">
             <div class="selt">Genre</div>
-            <div class="item-box">
+            <div class="item-box" type="Genre">
               <span>Dessert</span>
               <span>Lunch Dinner</span>
               <span>Potlock</span>
@@ -119,7 +183,7 @@
           </div>
           <div class="filter-item">
             <div class="selt">Occasion</div>
-            <div class="item-box">
+            <div class="item-box" type="Occasion">
               <span>Party</span>
               <span>Dating</span>
               <span>Movie Night</span>
@@ -128,7 +192,7 @@
           </div>
           <div class="filter-item">
             <div class="selt">Time Spent</div>
-            <div class="item-box">
+            <div class="item-box" type="TimeSpent">
               <span>～ 30mins</span>
               <span>30 - 1h</span>
               <span>1-2h</span>
@@ -137,7 +201,7 @@
           </div>
           <div class="filter-item">
             <div class="selt">Servings</div>
-            <div class="item-box">
+            <div class="item-box" type="Servings">
               <span>1</span>
               <span>1-2</span>
               <span>2-3</span>
@@ -149,51 +213,111 @@
       </div>
       <div class="grid-containr">
         <div class="msg-box">
-          <div class="card">
-            <div class="emoji">🌄</div>
-            <div class="category">Sunrise over mountains</div>
-            <div class="description">SSun, Mountains, Early Morning</div>
-            <div class="year">xxx</div>
-          </div>
+          <div class="card-warp" id="row1"></div>
         </div>
         <div class="msg-box">
-          <div class="card">
-            <div class="emoji">🌄</div>
-            <div class="category">Sunrise over mountains</div>
-            <div class="description">SSun, Mountains, Early Morning</div>
-            <div class="year">xxx</div>
-          </div>
+          <div class="card-warp" id="row2"></div>
         </div>
         <div class="msg-box">
-          <div class="card">
-            <div class="emoji">🌄</div>
-            <div class="category">Sunrise over mountains</div>
-            <div class="description">SSun, Mountains, Early Morning</div>
-            <div class="year">xxx</div>
-          </div>
-        </div>
-        <div class="msg-box">
-          <div class="card">
-            <div class="emoji">🌄</div>
-            <div class="category">Sunrise over mountains</div>
-            <div class="description">SSun, Mountains, Early Morning</div>
-            <div class="year">xxx</div>
-          </div>
+          <div class="card-warp" id="row3"></div>
         </div>
       </div>
+      <div class="gird-layout"></div>
     </div>
   </body>
 </html>
 <script>
   $(document).ready(function () {
-    $('.item-box > span').click(function (e) {
-      const value = $(this).attr('value')
-      const curSeltDom = $(this).parents('.filter-item').find('.selt')
-      curSeltDom.text($(this).text())
-    })
+    let list = []
     // mousescroll
     $('.msg-box').click(() => {
       window.location.href = './page2.html'
     })
+    function buildhtml(row1) {
+      let out = ''
+      for (let item of row1) {
+        out += `<div class="card">
+              <div class="photo"></div>
+              <div class="description">${item.Name}</div>
+              <div class="category">${item.Genre}</div>
+              <div class="time">${item.TimeSpent}</div>
+            </div>`
+      }
+      //second for scroll
+      for (let item of row1) {
+        out += `<div class="card">
+              <div class="photo"></div>
+              <div class="description">${item.Name}</div>
+              <div class="category">${item.Genre}</div>
+              <div class="time">${item.TimeSpent}</div>
+            </div>`
+      }
+      return out
+    }
+    // get json
+    fetch('./data/data.json')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (data) {
+        list = data
+        //scroll row
+        const row1 = data.slice(0, 6)
+        const row2 = data.slice(7, 13)
+        console.log(row1)
+
+        let box = document.querySelector('#row1')
+        let box2 = document.querySelector('#row2')
+        box.innerHTML = buildhtml(row1)
+        box2.innerHTML = buildhtml(row2)
+      })
+    // select filter no scroll
+    let condition = {
+      Genre: '',
+      Occasion: '',
+      TimeSpent: '',
+      Servings: ''
+    }
+    $('.item-box > span').click(function (e) {
+      $(this).addClass('active').siblings().removeClass('active')
+      const value = $(this).attr('value')
+      const curSeltDom = $(this).parents('.filter-item').find('.selt')
+      const txt = $(this).text()
+      curSeltDom.text(txt)
+      let type = $(this).parent('.item-box').attr('type')
+      condition[type] = txt
+      console.log(condition)
+      filter()
+    })
+    function filter() {
+      // grid fill
+      let tmp = list.filter(function (item) {
+        let result = false
+        if (condition.Genre !== '') {
+          result = item.Genre == condition.Genre
+        }
+        if (condition.Occasion !== '') {
+          result = item.Occasion == condition.Occasion
+        }
+        if (condition.TimeSpent !== '') {
+          result = item.TimeSpent == condition.TimeSpent
+        }
+        if (condition.Servings !== '') {
+          result = item.Servings == condition.Servings
+        }
+        return result
+      })
+      let out = ''
+      for (let item of tmp) {
+        out += `<div class="card">
+              <div class="photo"></div>
+              <div class="description">${item.Name}</div>
+              <div class="category">${item.Genre}</div>
+              <div class="time">${item.TimeSpent}</div>
+            </div>`
+      }
+      $('.gird-layout').html(out)
+      $('.grid-containr').hide()
+    }
   })
 </script>
