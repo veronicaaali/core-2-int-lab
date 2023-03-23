@@ -1,12 +1,13 @@
 .link-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding-bottom: 3.3rem;
   align-self: stretch;
 }
 .link-container > a {
   font-size: 1.33rem;
-  margin-right: 2.2rem;
+  margin-right: 1rem;
   /* font-weight: bold; */
 }
 .detail-wrapper {
