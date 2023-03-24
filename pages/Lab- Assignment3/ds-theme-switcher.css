@@ -103,12 +103,12 @@ html {
  */
 
 ::-moz-selection {
-  background: #b3d4fc;
+  background: #afb0ad;
   text-shadow: none;
 }
 
 ::selection {
-  background: #b3d4fc;
+  background: #afb0ad;
   text-shadow: none;
 }
 
@@ -120,7 +120,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #a78484;
   margin: 1em 0;
   padding: 0;
 }
@@ -186,10 +186,10 @@ textarea {
 
 
   :root {
-    --bg-color: #F9F1EF;
+    --bg-color: rgb(238, 239, 232);
     --font-color: black;
     --title-color: #0067e6;
-    --title-background: rgb(255, 211, 211);
+    --title-background: #dbdbdb;
     --main-border: 1px solid rgba(255, 255, 255, 0.4);
     --main-bg: #ffffff;
 
@@ -445,7 +445,7 @@ h6 {
     border-radius: 50%;
   }
     .color-deep-brown {
-    background-color: #2D7B1C;
+    background-color: #2A8C43;
     border-radius: 50%;
   }
 
