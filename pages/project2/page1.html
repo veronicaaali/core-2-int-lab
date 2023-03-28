@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
+    />
+    <link rel="stylesheet" href="./assets/stylesheet.css" />
+    <script src="./assets/jq.min.js"></script>
+    <script src="./assets/cursoreffects.js"></script>
+    <script src="./assets/cbo.js"></script>
+  </head>
+  <body>
+    <div class="head">今天吃什么。</div>
+    <div class="body">
+      <div class="choose-box">
+        <div class="filter-wrap">
+          <!-- before -->
+          <div class="filter-item">
+            <div class="selt" defalut="Genre">Genre</div>
+            <div class="item-box" type="Genre">
+              <span value="Dessert">Dessert</span>
+              <span value="Lunch/Dinner">Lunch/Dinner</span>
+              <span value="Potluck">Potlock</span>
+              <span value="Dessert">Dairy-Free</span>
+              <span value="Vegetarian">Vegetarian</span>
+              <span value="Beverage">Beverage</span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="selt" defalut="Occasion">Occasion</div>
+            <div class="item-box" type="Applicableoccasions">
+              <span value="Brunch">Brunch</span>
+              <span value="Party">Party</span>
+              <span value="Dating">Dating</span>
+              <span value="Movie Night">Movie Night</span>
+              <span value="Fitness">Fitness</span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="selt" defalut="Time Spent">Time Spent</div>
+            <div class="item-box" type="TimeSpent">
+              <span value="30min">～ 30mins</span>
+              <span value="30-1h">30 - 1h</span>
+              <span value="1-2 h">1-2h</span>
+              <span value="2h">2h</span>
+              <span value=">2h">>2h</span>
+            </div>
+          </div>
+          <div class="filter-item">
+            <div class="selt" defalut="Servings">Servings</div>
+            <div class="item-box" type="Servings">
+              <span value="1">1</span>
+              <span value="1-2">1-2</span>
+              <span value="2-4">2-4</span>
+              <span value="4-6">4-6</span>
+              <span value=">6">>6</span>
+            </div>
+          </div>
+          <div class="filter-item reset" id="reset">Reset</div>
+        </div>
+      </div>
+      <div class="grid-containr">
+        <div class="msg-box">
+          <div class="card-warp" id="row1"></div>
+        </div>
+        <div class="msg-box">
+          <div class="card-warp" id="row2"></div>
+        </div>
+        <div class="msg-box">
+          <div class="card-warp" id="row3"></div>
+        </div>
+      </div>
+      <div class="gird-layout"></div>
+    </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    let list = []
+    // mousescroll
+    $('.grid-containr,.gird-layout').on('click', '.card', function () {
+      let name = $(this).attr('name')
+      window.location.href = './page2.html?name=' + encodeURI(name)
+    })
+    function buildhtml(row1) {
+      let out = ''
+      for (let item of row1) {
+        out += `<div class="card" name="${item.Name}">
+              <div class="photo"><img src="./assets/Pic/${item.Picture}"></div>
+              <div class="description">${item.Name}</div>
+              <div class="category">${item.Genre}</div>
+              <div class="time">${item.TimeSpent}</div>
+            </div>`
+      }
+      //second for scroll
+      for (let item of row1) {
+        out += `<div class="card" name="${item.Name}">
+              <div class="photo"><img src="./assets/Pic/${item.Picture}"></div>
+              <div class="description">${item.Name}</div>
+              <div class="category">${item.Genre}</div>
+              <div class="time">${item.TimeSpent}</div>
+            </div>`
+      }
+      return out
+    }
+    // get json
+    fetch('./data/data.json')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (data) {
+        list = data
+        //scroll row
+        const row1 = data.slice(0, 10)
+        const row2 = data.slice(10, 20)
+        const row3 = data.slice(20, 30)
+        console.log(row1, row2, row3, data)
+        let box = document.querySelector('#row1')
+        let box2 = document.querySelector('#row2')
+        let box3 = document.querySelector('#row3')
+        box.innerHTML = buildhtml(row1)
+        box2.innerHTML = buildhtml(row2)
+        box3.innerHTML = buildhtml(row3)
+      })
+    // select filter no scroll
+    let condition = {
+      Genre: '',
+      Applicableoccasions: '',
+      TimeSpent: '',
+      Servings: ''
+    }
+
+    $('.item-box > span').click(function (e) {
+      $(this).addClass('active').siblings().removeClass('active')
+      const value = $(this).attr('value')
+      const curSeltDom = $(this).parents('.filter-item').find('.selt')
+      const txt = $(this).text()
+      curSeltDom.text(txt)
+      let type = $(this).parent('.item-box').attr('type')
+      condition[type] = value
+      console.log(condition)
+      filter()
+    })
+
+    $('#reset').click(function () {
+      $('.selt').each(function () {
+        let defalut = $(this).attr('defalut')
+        $(this).text(defalut)
+      })
+      $('.item-box>span').removeClass('active')
+      condition = {
+        Genre: '',
+        Applicableoccasions: '',
+        TimeSpent: '',
+        Servings: ''
+      }
+      filter()
+    })
+
+    function filter() {
+      // grid fill
+      let tmp = list.filter(function (item) {
+        let result =
+          condition.Genre == '' || item.Genre.includes(condition.Genre)
+        let result2 =
+          condition.Applicableoccasions == '' ||
+          item.Applicableoccasions.includes(condition.Applicableoccasions)
+        let result3 =
+          condition.TimeSpent == '' || item.TimeSpent == condition.TimeSpent
+        let result4 =
+          condition.Servings == '' || item.Servings == condition.Servings
+        return result && result2 && result3 && result4
+      })
+
+      let out = ''
+      for (let item of tmp) {
+        out += `<div class="card" name="${item.Name}">
+              <div class="photo"><img src="./assets/Pic/${item.Picture}"></div>
+              <div class="description">${item.Name}</div>
+              <div class="category">${item.Genre}</div>
+              <div class="time">${item.TimeSpent}</div>
+            </div>`
+      }
+      $('.gird-layout').html(out)
+      $('.grid-containr').hide()
+    }
+  })
+</script>

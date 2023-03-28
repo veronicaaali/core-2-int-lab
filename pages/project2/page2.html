@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/stylesheet2.css" />
+    <script src="./assets/jq.min.js"></script>
+    <script src="./assets/cursoreffects.js"></script>
+    <script src="./assets/cbo.js"></script>
+  </head>
+  <body>
+    <div class="head">
+      今天吃什么。
+      <a href="./page1.html">
+        <div class="backbtn"></div>
+      </a>
+    </div>
+    <div class="container">
+      <div class="food-info">
+        <div class="left">
+          <div class="title" id="title"></div>
+          <div class="photo" id="photo"></div>
+        </div>
+        <div class="right">
+          <div class="adjust">
+            <li>时长/Time Spent</li>
+            <li id="time">2 hours</li>
+            <li>供几人份/Servings</li>
+            <li id="servings">5-6</li>
+            <li>适合/Occasion</li>
+            <li id="Occasion">Party</li>
+          </div>
+        </div>
+      </div>
+      <div class="food-step">
+        <div class="side">
+          <div>材料/<span>Ingredients</span></div>
+        </div>
+        <div class="side-detail" id="Ingredients"></div>
+      </div>
+      <div class="food-step">
+        <div class="side">
+          <div>步骤/<span>Steps</span></div>
+        </div>
+        <div class="side-detail" id="Step"></div>
+      </div>
+      <div class="tips">*Click the top right button to return to the Home page*</div>
+    </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    const nameStr = window.location.search
+    const name = nameStr.split('=')[1] ? decodeURI(nameStr.split('=')[1]) : ''
+    console.log(name)
+    $('#title').text(name)
+    // get json
+    fetch('./data/data.json')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (data) {
+        let result = data.filter((item) => item.Name == name)
+        let curDto = result[0]
+        //scroll row
+        let photohtml = `<img src="./assets/Pic/${curDto.Picture}">`
+        $('#photo').html(photohtml)
+        $('#time').html(curDto.TimeSpent)
+        $('#servings').html(curDto.Servings)
+        $('#Occasion').html(curDto.Applicableoccasions)
+        let Ingredientshtml = curDto.Ingredients.split('\n').map((e) => {
+          return `<p>${e}</p>`
+        })
+        $('#Ingredients').html(Ingredientshtml)
+        let Stepshtml = curDto.Step.split('\n').map((e) => {
+          return `<p>${e}</p>`
+        })
+        $('#Step').html(Stepshtml)
+      })
+  })
+</script>
