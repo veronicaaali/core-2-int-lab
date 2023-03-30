@@ -18,14 +18,15 @@ data.forEach( function(item, index){
   console.log(item, index);
   let usage = item['general-usage'] * 10;
   console.log('usage', usage);
-  let newItem = document.createElement("div");
+  let newItem = document.createElement("li");
+  newItem.style.background = item.hexvalue
   newItem.classList.add("icon");
-  newItem.classList.add(item.categorykey);
+  // newItem.classList.add(item.box);
   
   // newItem.style.cssText = `font-size: ${usage}px`;
   newItem.innerHTML = `
-    <div class="nameofcolor">${item.nameofcolor}</div>
-    <div class="hexvalue">${item.hexvalue}</div>`;
+    <span class="nameofcolor">${item.nameofcolor} ${item.hexvalue}</span>
+  `;
   container.appendChild(newItem);   
 });
 }
