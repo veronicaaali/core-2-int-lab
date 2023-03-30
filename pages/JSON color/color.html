@@ -6,10 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="color.css">
+    <style>
+      .content{
+        width: 1000px;
+        height: 600px;
+        background-color: aqua;
+        display: flex;
+      }
+      .content li{
+        list-style: none;
+        width: 200px;
+        height: 600px;
+      }
+      .content li:nth-child(1){
+        background-color: aquamarine;
+      }
+      .content li:nth-child(2){
+        background-color: rgb(255, 210, 127);
+      }
+      .content li:nth-child(3){
+        background-color: rgb(255, 127, 212);
+      }
+      .content li:nth-child(4){
+        background-color: rgb(255, 246, 127);
+      }
+      .content li:nth-child(5){
+        background-color: rgb(226, 20, 20);
+      }
+      .content li:hover{
+        width: 800px;
+         transition: all 2s; 
+      }
+    </style>
 </head>
 <body>
     <main id="container">
-
+        <div class="content">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+        </div>
     </main>
     <script src="color.js"></script>
 </body>
