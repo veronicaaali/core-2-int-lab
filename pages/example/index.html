@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 500px;
+        margin: 0 auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img src="./loading.gif" alt="loading" id="image" width="100%"/><br />
+      <button id="btn">Change</button>
+    </div>
+  </body>
+</html>
+<script type="text/javascript">
+  function getNewDogImage() {
+    displayImg('./loading.gif')
+    fetch('https://api.thecatapi.com/v1/images/search')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        displayImg(data[0].url)
+      })
+      .catch((error) => console.log(error))
+  }
+
+  function displayImg(imageUrl) {
+    const imagedom = document.getElementById('image')
+    imagedom.setAttribute('src', imageUrl)
+  }
+
+  document.getElementById('btn').addEventListener('click', getNewDogImage)
+
+  // Fetch an initial dog image on page load
+  getNewDogImage()
+</script>
