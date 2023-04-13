@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
+    />
+    <title>Dispaly</title>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="./assets/jq.min.js"></script>
+    <style>
+      body {
+        background: #f6f6f6;
+      }
+      .header {
+        font-size: 20px;
+        line-height: 50px;
+        border-bottom: 2px solid #000;
+        padding: 0 15px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        z-index: 99;
+      }
+      #container {
+        margin-top: 50px;
+      }
+      /* .grid-item {
+        width: 25%;
+      }
+      .grid-item--width2 {
+        width: 50%;
+      } */
+      /* fluid 5 columns */
+      .grid-sizer,
+      .grid-item {
+        width: calc(20% - 2px);
+        background: #fff;
+        border: 1px solid #000;
+      }
+      .grid-item > div {
+        opacity: 0;
+      }
+      .grid-item.show > div {
+        opacity: 1;
+      }
+      /* 2 columns */
+      .grid-item--width2 {
+        width: 40%;
+        background: #fff;
+        border: 1px solid #000;
+      }
+      .tile {
+        line-height: 50px;
+        padding: 0 5px;
+        background: #ddd;
+        font-size: 20px;
+      }
+      .box {
+        min-height: 300px;
+        line-height: 25px;
+        padding: 10px;
+        color: #333;
+      }
+      .street {
+        color: #8590a6;
+        padding: 10px 5px;
+        font-size: 14px;
+        line-height: 30px;
+        text-align: right;
+        border-top: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">NYC Community Based Organizations Search</div>
+    <div class="grid" id="container">
+    </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    let allData = []
+    getAllData()
+    function getAllData() {
+      fetch('https://data.cityofnewyork.us/resource/i4kb-6ab6.json')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          allData = data
+          buildHtml(allData.splice(0, 20))
+        })
+        .catch((error) => console.log(error))
+    }
+    function buildHtml(data) {
+      let html = data
+        .map((e, i) => {
+          let classname = 'grid-item'
+          // if (i % 2 == 0) classname = 'grid-item--width2' <p>${e.mission}</p>
+          return `<div class="${classname}">
+        <div class="tile">${e.city}</div>
+        <div class="box">${e.mission}</div>
+        <div class="street">${e.street_address}</div>
+        </div>`
+        })
+        .join('')
+      $('#container').append(html)
+      var elem = document.querySelector('#container')
+      var iso = new Isotope(elem, {
+        // options
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        masonry: {
+          // use element for option
+          columnWidth: '.grid-item'
+        }
+      })
+    }
+    $('#container').on('click', '.grid-item', function () {
+      $(this).addClass('show')
+    })
+    //scroll append data
+    $(window).scroll(function () {
+      console.log('scroll')
+      if (
+        $(document).scrollTop() >=
+        $(document).height() - $(window).height()
+      ) {
+        buildHtml(allData.splice(0, 20))
+      }
+    })
+  })
+</script>
