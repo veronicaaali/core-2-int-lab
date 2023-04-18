@@ -75,16 +75,59 @@
         text-align: right;
         border-top: 1px solid #ddd;
       }
+      .box-wrap {
+        display: flex;
+      }
+      .box-wrap > div {
+        background: #ccc;
+      }
+      .col-1 {
+        width: 25%;
+      }
+      .col-2 {
+        width: 50%;
+        border-bottom: 1px solid #333;
+      }
+      .row-1 {
+        min-height: 250px;
+        /* padding-bottom: 100%; */
+        border-bottom: 1px solid #333;
+        border-left: 1px solid #333;
+        border-right: 1px solid #333;
+        position: relative;
+      }
+      .row-1::after {
+        content: '';
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .type2 .col-1:nth-child(2) .row-1 {
+        border-left: none;
+      }
     </style>
   </head>
   <body>
     <div class="header">NYC Community Based Organizations Search</div>
-    <div class="grid" id="container">
-    </div>
+    <div class="grid" id="container"></div>
   </body>
 </html>
 <script>
   $(document).ready(function () {
+    const bgColorMap = {
+      'STATEN ISLAND': '#85c7ba',
+      BRONX: '#fccd1c',
+      FLUSHING: '#e25d47',
+      BROOKLYN: '#678b99',
+      'NEW YORK': '#e9909f',
+      MANHATTAN: '#77b6e4',
+      QUEEENS: '#f99360',
+      'LONG ISAND CITY': '#3f994e'
+    }
     let allData = []
     getAllData()
     function getAllData() {
@@ -93,36 +136,58 @@
         .then((data) => {
           console.log(data)
           allData = data
-          buildHtml(allData.splice(0, 20))
+          buildHtml(allData.splice(0, 10))
         })
         .catch((error) => console.log(error))
     }
     function buildHtml(data) {
-      let html = data
-        .map((e, i) => {
-          let classname = 'grid-item'
-          // if (i % 2 == 0) classname = 'grid-item--width2' <p>${e.mission}</p>
-          return `<div class="${classname}">
-        <div class="tile">${e.city}</div>
-        <div class="box">${e.mission}</div>
-        <div class="street">${e.street_address}</div>
-        </div>`
-        })
-        .join('')
+      let tmp1 = `<div class="box-wrap">
+        <div class="col-1">
+          <div class="row-1" style="background:${
+            bgColorMap[data[0].borough]
+          }"></div>
+          <div class="row-1"  style="background:${
+            bgColorMap[data[1].borough]
+          }"></div>
+        </div>
+        <div class="col-2" style="background:${
+          bgColorMap[data[2].borough]
+        }"></div>
+        <div class="col-1">
+          <div class="row-1" style="background:${
+            bgColorMap[data[3].borough]
+          }"></div>
+          <div class="row-1" style="background:${
+            bgColorMap[data[4].borough]
+          }"></div>
+        </div>
+      </div>`
+      let tmp2 = `<div class="box-wrap type2">
+        <div class="col-1">
+          <div class="row-1" style="background:${
+            bgColorMap[data[5].borough]
+          }"></div>
+          <div class="row-1" style="background:${
+            bgColorMap[data[6].borough]
+          }"></div>
+        </div>
+        <div class="col-1">
+          <div class="row-1" style="background:${
+            bgColorMap[data[7].borough]
+          }"></div>
+          <div class="row-1" style="background:${
+            bgColorMap[data[8].borough]
+          }"></div>
+        </div>
+        <div class="col-2" style="background:${
+          bgColorMap[data[9].borough]
+        }"></div>
+      </div>`
+      let html = tmp1 + tmp2
       $('#container').append(html)
-      var elem = document.querySelector('#container')
-      var iso = new Isotope(elem, {
-        // options
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
-          // use element for option
-          columnWidth: '.grid-item'
-        }
-      })
     }
-    $('#container').on('click', '.grid-item', function () {
-      $(this).addClass('show')
+    $('#container').on('click', '.row-1', function () {
+      window.location.href = './page2.html'
     })
     //scroll append data
     $(window).scroll(function () {
@@ -131,7 +196,7 @@
         $(document).scrollTop() >=
         $(document).height() - $(window).height()
       ) {
-        buildHtml(allData.splice(0, 20))
+        buildHtml(allData.splice(0, 10))
       }
     })
   })
