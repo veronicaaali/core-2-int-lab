@@ -8,125 +8,74 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
     />
+    <link rel="stylesheet" href="./assets//font/stylesheet.css" />
+    <link rel="stylesheet" href="./assets/style.css" />
     <title>Dispaly</title>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="./assets/jq.min.js"></script>
     <style>
-      body {
-        background: #f6f6f6;
-      }
-      .header {
-        font-size: 20px;
-        line-height: 50px;
-        border-bottom: 2px solid #000;
-        padding: 0 15px;
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background: #fff;
-        z-index: 99;
-      }
-      #container {
-        margin-top: 50px;
-      }
-      /* .grid-item {
-        width: 25%;
-      }
-      .grid-item--width2 {
-        width: 50%;
-      } */
-      /* fluid 5 columns */
-      .grid-sizer,
-      .grid-item {
-        width: calc(20% - 2px);
-        background: #fff;
-        border: 1px solid #000;
-      }
-      .grid-item > div {
-        opacity: 0;
-      }
-      .grid-item.show > div {
-        opacity: 1;
-      }
-      /* 2 columns */
-      .grid-item--width2 {
-        width: 40%;
-        background: #fff;
-        border: 1px solid #000;
-      }
-      .tile {
-        line-height: 50px;
-        padding: 0 5px;
-        background: #ddd;
-        font-size: 20px;
-      }
-      .box {
-        min-height: 300px;
-        line-height: 25px;
-        padding: 10px;
-        color: #333;
-      }
-      .street {
-        color: #8590a6;
-        padding: 10px 5px;
-        font-size: 14px;
-        line-height: 30px;
-        text-align: right;
-        border-top: 1px solid #ddd;
-      }
-      .box-wrap {
-        display: flex;
-      }
-      .box-wrap > div {
-        background: #ccc;
-      }
-      .col-1 {
-        width: 25%;
-      }
-      .col-2 {
-        width: 50%;
-        border-bottom: 1px solid #333;
-      }
-      .row-1 {
-        min-height: 250px;
-        /* padding-bottom: 100%; */
-        border-bottom: 1px solid #333;
-        border-left: 1px solid #333;
-        border-right: 1px solid #333;
-        position: relative;
-      }
-      .row-1::after {
-        content: '';
-        position: absolute;
-        bottom: 15px;
-        right: 15px;
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: #fff;
-      }
-      .type2 .col-1:nth-child(2) .row-1 {
-        border-left: none;
-      }
+     
     </style>
   </head>
   <body>
-    <div class="header">NYC Community Based Organizations</div>
+    <div class="header">
+      NYC Community <br />
+      Based Organizations Search
+    </div>
+    <div class="head-bg">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="mid">
+      <div class="search-box">
+        <div class="selct-value">SELECT</div>
+        <ul class="selct-option">
+          <li>NEW YORK</li>
+          <li>MANHATTAN</li>
+          <li>BROOKLYN</li>
+          <li>BRONX</li>
+          <li>QUEEENS</li>
+          <li>FLUSHING</li>
+          <li>LONG ISAND CITY</li>
+          <li>STATEN ISLAND</li>
+        </ul>
+      </div>
+      <div>CLEAR</div>
+    </div>
     <div class="grid" id="container"></div>
+    <div class="popup-mask"></div>
+    <div class="popup-detail">
+      <div class="tabs">
+        <div class="tab active">QUEENS</div>
+        <div class="tab">"QUEENS"</div>
+        <div class="tab">"QUEENS"</div>
+      </div>
+      <div class="info">
+        <h1>Based Organizations Search</h1>
+        <p>
+          The GlamourGals program fosters these intergenerational activities on
+          a national scale through the development of local teen lead volunteer
+          chapters.
+        </p>
+      </div>
+    </div>
   </body>
 </html>
 <script>
   $(document).ready(function () {
     const bgColorMap = {
-      'STATEN ISLAND': '#85c7ba',
+      STATENISLAND: '#85c7ba',
       BRONX: '#fccd1c',
       FLUSHING: '#e25d47',
       BROOKLYN: '#678b99',
-      'NEW YORK': '#e9909f',
+      NEWYORK: '#e9909f',
       MANHATTAN: '#77b6e4',
       QUEEENS: '#f99360',
-      'LONG ISAND CITY': '#3f994e'
+      LONGISANDCITY: '#3f994e'
     }
     let allData = []
     getAllData()
@@ -141,53 +90,98 @@
         .catch((error) => console.log(error))
     }
     function buildHtml(data) {
+      data = data.map((e) => ({
+        ...e,
+        borough2: e.borough && e.borough.replace(/ /g, ''),
+        str: window.btoa(encodeURIComponent(JSON.stringify(e))) // choose field to pass
+      }))
       let tmp1 = `<div class="box-wrap">
         <div class="col-1">
-          <div class="row-1" style="background:${
-            bgColorMap[data[0].borough]
-          }"></div>
-          <div class="row-1"  style="background:${
-            bgColorMap[data[1].borough]
-          }"></div>
+          <div class="row-1" data='${data[0].str}' style="background:${
+        bgColorMap[data[0].borough2] || '#fff'
+      }"></div>
+          <div class="row-1" data='${data[1].str}' style="background:${
+        bgColorMap[data[1].borough2] || '#fff'
+      }"></div>
         </div>
-        <div class="col-2" style="background:${
-          bgColorMap[data[2].borough]
-        }"></div>
+        <div class="col-2" data='${data[2].str}' style="background:${
+        bgColorMap[data[2].borough2] || '#fff'
+      }"></div>
         <div class="col-1">
-          <div class="row-1" style="background:${
-            bgColorMap[data[3].borough]
-          }"></div>
-          <div class="row-1" style="background:${
-            bgColorMap[data[4].borough]
-          }"></div>
+          <div class="row-1" data='${data[3].str}' style="background:${
+        bgColorMap[data[3].borough2] || '#fff'
+      }"></div>
+          <div class="row-1"  data='${data[4].str}' style="background:${
+        bgColorMap[data[4].borough2] || '#fff'
+      }"></div>
         </div>
       </div>`
       let tmp2 = `<div class="box-wrap type2">
         <div class="col-1">
-          <div class="row-1" style="background:${
-            bgColorMap[data[5].borough]
-          }"></div>
-          <div class="row-1" style="background:${
-            bgColorMap[data[6].borough]
-          }"></div>
+          <div class="row-1" data='${data[5].str}' style="background:${
+        bgColorMap[data[5].borough2] || '#fff'
+      }"></div>
+          <div class="row-1" data='${data[6].str}' style="background:${
+        bgColorMap[data[6].borough2] || '#fff'
+      }"></div>
         </div>
         <div class="col-1">
-          <div class="row-1" style="background:${
-            bgColorMap[data[7].borough]
-          }"></div>
-          <div class="row-1" style="background:${
-            bgColorMap[data[8].borough]
-          }"></div>
+          <div class="row-1" data='${data[7].str}' style="background:${
+        bgColorMap[data[7].borough2] || '#fff'
+      }"></div>
+          <div class="row-1" data='${data[8].str}' style="background:${
+        bgColorMap[data[8].borough2] || '#fff'
+      }"></div>
         </div>
-        <div class="col-2" style="background:${
-          bgColorMap[data[9].borough]
-        }"></div>
+        <div class="col-2" data='${data[9].str}' style="background:${
+        bgColorMap[data[9].borough2] || '#fff'
+      }"></div>
       </div>`
       let html = tmp1 + tmp2
       $('#container').append(html)
     }
-    $('#container').on('click', '.row-1', function () {
-      window.location.href = './page2.html'
+    $('#container').on('click', '.row-1,.col-2', function () {
+      let dataStr = $(this).attr('data')
+      const data = JSON.parse(decodeURIComponent(window.atob(dataStr)))
+      $('.row-1,.col-2').removeClass('active')
+      $(this).addClass('active')
+      let offset = $(this).offset()
+      let popup = $('.popup-detail').removeAttr('style')
+
+      if (data.borough) {
+        popup.addClass(data.borough.replace(/ /g, ''))
+      } else {
+        popup.addClass('wh')
+      }
+      $('.popup-mask').show()
+      if (offset.left + popup.width() < $(window).width()) {
+        popup
+          .css({
+            top: offset.top + $(this).height(),
+            left: offset.left
+          })
+          .show()
+      } else {
+        popup
+          .css({
+            top: offset.top + $(this).height(),
+            right: 0
+          })
+          .show()
+      }
+      let dis = offset.top + $(this).height() - $(document).scrollTop()
+      if (dis > $(window).height() / 2) {
+        let scrollHeight = $(document).scrollTop() + $(window).height() / 2
+        window.scrollTo(0, scrollHeight)
+      }
+      // window.location.href = './page2.html?data=' + data
+    })
+    $('.popup-mask').click(function () {
+      $(this).hide()
+      $('.popup-detail').hide().removeClass().addClass('popup-detail')
+    })
+    $('.tab').click(function () {
+      $(this).addClass('active').siblings().removeClass('active')
     })
     //scroll append data
     $(window).scroll(function () {

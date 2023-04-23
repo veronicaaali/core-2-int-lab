@@ -4,7 +4,83 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
+    />
     <title>StreetDetail</title>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="./assets/jq.min.js"></script>
+    <style>
+      header {
+        font-size: 35px;
+        padding: 0 50px;
+        height: 80px;
+        line-height: 80px;
+        background: #000;
+        color: #fff;
+      }
+      main {
+        padding: 40px;
+      }
+      .btn > button {
+        outline: none;
+        font-size: 20px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 30px;
+        color: #9b9b9b;
+        background: #fff;
+        margin-right: 40px;
+        border-radius: 25px;
+      }
+      button.noborder {
+        border: none;
+        text-decoration: underline;
+      }
+      .title {
+        font-size: 25px;
+        line-height: 50px;
+      }
+      .detail {
+        font-size: 18px;
+        line-height: 26px;
+      }
+      .detail-warp {
+        margin-top: 40px;
+        width: 800px;
+      }
+      .mgt-40 {
+        margin-top: 40px;
+      }
+    </style>
   </head>
-  <body>Detail Page</body>
+  <body>
+    <header>NYC Community Based Organizations Search</header>
+    <main>
+      <div class="btn">
+        <button>SEARCH</button>
+        <button class="noborder">CLEAR</button>
+      </div>
+      <div class="detail-warp">
+        <div class="title">Astoria Delivery Service Inc</div>
+        <div class="detail">
+          We celebrate the value of Arts and Education and work to champion
+          diversity and equal access. We run several programs designed to serve
+          the community. We do Tutoring well as Arts & Crafts. We also run
+          seminars and information sessions on issues that affect the community.
+        </div>
+        <div class="title mgt-40">Astoria Delivery Service Inc</div>
+      </div>
+    </main>
+  </body>
 </html>
+<script>
+  $(document).ready(function () {
+    const query = window.location.search
+    const dataStr = query.split('=')[1]
+    debugger
+    const data = JSON.parse(decodeURIComponent(window.atob(dataStr)))
+    console.log(data)
+  })
+</script>
