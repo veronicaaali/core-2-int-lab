@@ -9,13 +9,12 @@
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
     />
     <link rel="stylesheet" href="./assets//font/stylesheet.css" />
+    <link rel="stylesheet" href="./assets//font/stylesheet2.css" />
     <link rel="stylesheet" href="./assets/style.css" />
     <title>Dispaly</title>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="./assets/jq.min.js"></script>
-    <style>
-     
-    </style>
+    <style></style>
   </head>
   <body>
     <div class="header">
@@ -50,18 +49,34 @@
     <div class="popup-mask"></div>
     <div class="popup-detail">
       <div class="tabs">
-        <div class="tab active">QUEENS</div>
-        <div class="tab">"QUEENS"</div>
-        <div class="tab">"QUEENS"</div>
+        <div class="tab active">Overview</div>
+        <div class="tab">Location</div>
+        <div class="tab">Website</div>
       </div>
-      <div class="info">
-        <h1>Based Organizations Search</h1>
+      <!-- <div class="info">
+        <h1>Based Organizations Search1</h1>
         <p>
           The GlamourGals program fosters these intergenerational activities on
           a national scale through the development of local teen lead volunteer
           chapters.
         </p>
       </div>
+      <div class="info">
+        <h1>Based Organizations Search2</h1>
+        <p>
+          The GlamourGals program fosters these intergenerational activities on
+          a national scale through the development of local teen lead volunteer
+          chapters.
+        </p>
+      </div>
+      <div class="info">
+        <h1>Based Organizations Search3</h1>
+        <p>
+          The GlamourGals program fosters these intergenerational activities on
+          a national scale through the development of local teen lead volunteer
+          chapters.
+        </p>
+      </div> -->
     </div>
   </body>
 </html>
@@ -153,6 +168,45 @@
       } else {
         popup.addClass('wh')
       }
+      let mission = $('<pre></pre>').html(data.mission).text()
+      let volunteer_program_description = $('<pre></pre>')
+        .html(data.volunteer_program_description)
+        .text()
+      const html = `<div class="tabs">
+        <div class="tab active">Overview</div>
+        <div class="tab">Location</div>
+        <div class="tab">Website</div>
+      </div>
+      <div class="info active">
+        <h1>${data.organization_name}</h1>
+        <strong>Mission</strong>
+        <p>${mission}</p>
+        <strong>Volunteer Program Description</strong>
+        <p>${volunteer_program_description}</p>
+      </div>
+      <div class="info">
+        <h1>${data.organization_name}</h1>
+        <strong>Street Address</strong>
+        <p>${data.street_address}</p>
+        <div class="city">
+          <div>
+            <strong>City</strong>
+            <p>${data.city}</p>
+          </div>
+          <div>
+            <strong>State</strong>
+            <p>${data.state}</p>
+          </div>
+        </div>
+        <strong>Postcode</strong>
+        <p>${data.postcode}</p>
+      </div>
+      <div class="info">
+        <h1>${data.organization_name}</h1>
+        <strong>Website</strong>
+        <p>${data.website.url}</p>
+      </div>`
+      popup.html(html)
       $('.popup-mask').show()
       if (offset.left + popup.width() < $(window).width()) {
         popup
@@ -180,8 +234,10 @@
       $(this).hide()
       $('.popup-detail').hide().removeClass().addClass('popup-detail')
     })
-    $('.tab').click(function () {
+    $('.popup-detail').on('click', '.tab', function () {
       $(this).addClass('active').siblings().removeClass('active')
+      let index = $('.tab').index(this)
+      $('.info').hide().eq(index).show()
     })
     //scroll append data
     $(window).scroll(function () {

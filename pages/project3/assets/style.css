@@ -209,6 +209,8 @@ div.search-box:hover .selct-option {
   padding: 40px 0 70px;
   z-index: 99;
   display: none;
+  font-family: 'Myriad Web';
+  font-weight: bold;
 }
 .popup-detail.STATENISLAND {
   background: #85c7ba;
@@ -263,14 +265,35 @@ div.search-box:hover .selct-option {
   line-height: 30px;
   padding: 0 40px 40px;
   font-size: 25px;
+  display: none;
+}
+.info.active {
+  display: block;
 }
 .info h1 {
+  line-height: 51px;
   font-size: 45px;
-  line-height: 90px;
+  min-height: 90px;
+  padding: 20px 0;
+}
+.info p {
+  font-weight: normal;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.city {
+  display: flex;
+}
+.city > div:nth-child(1) {
+  margin-right: 180px;
+}
+.info > strong,.city strong{
+  display: block;
+  margin-bottom: 5px;
 }
 .tab {
   height: 60px;
-  line-height: 50px;
+  line-height: 60px;
   font-size: 30px;
   padding: 0 55px;
   border-radius: 20px 20px 0 0;
