@@ -8,90 +8,83 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
     />
-    <link rel="stylesheet" href="./assets//font/stylesheet.css" />
-    <link rel="stylesheet" href="./assets//font/stylesheet2.css" />
-    <link rel="stylesheet" href="./assets/style.css" />
     <title>Dispaly</title>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="./assets/jq.min.js"></script>
-    <style></style>
+    <style>
+      body {
+        background: #f6f6f6;
+      }
+      .header {
+        font-size: 20px;
+        line-height: 50px;
+        border-bottom: 2px solid #000;
+        padding: 0 15px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: #fff;
+        z-index: 99;
+      }
+      #container {
+        margin-top: 50px;
+      }
+      /* .grid-item {
+        width: 25%;
+      }
+      .grid-item--width2 {
+        width: 50%;
+      } */
+      /* fluid 5 columns */
+      .grid-sizer,
+      .grid-item {
+        width: calc(20% - 2px);
+        background: #fff;
+        border: 1px solid #000;
+      }
+      .grid-item > div {
+        opacity: 0;
+      }
+      .grid-item.show > div {
+        opacity: 1;
+      }
+      /* 2 columns */
+      .grid-item--width2 {
+        width: 40%;
+        background: #fff;
+        border: 1px solid #000;
+      }
+      .tile {
+        line-height: 50px;
+        padding: 0 5px;
+        background: #ddd;
+        font-size: 20px;
+      }
+      .box {
+        min-height: 300px;
+        line-height: 25px;
+        padding: 10px;
+        color: #333;
+      }
+      .street {
+        color: #8590a6;
+        padding: 10px 5px;
+        font-size: 14px;
+        line-height: 30px;
+        text-align: right;
+        border-top: 1px solid #ddd;
+      }
+    </style>
   </head>
   <body>
-    <div class="header">
-      NYC Community <br />
-      Based Organizations Search
-    </div>
-    <div class="head-bg">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <div class="mid">
-      <div class="search-box">
-        <div class="selct-value">SELECT</div>
-        <ul class="selct-option">
-          <li>NEW YORK</li>
-          <li>MANHATTAN</li>
-          <li>BROOKLYN</li>
-          <li>BRONX</li>
-          <li>QUEEENS</li>
-          <li>FLUSHING</li>
-          <li>LONG ISAND CITY</li>
-          <li>STATEN ISLAND</li>
-        </ul>
-      </div>
-      <div>CLEAR</div>
-    </div>
-    <div class="grid" id="container"></div>
-    <div class="popup-mask"></div>
-    <div class="popup-detail">
-      <div class="tabs">
-        <div class="tab active">Overview</div>
-        <div class="tab">Location</div>
-        <div class="tab">Website</div>
-      </div>
-      <!-- <div class="info">
-        <h1>Based Organizations Search1</h1>
-        <p>
-          The GlamourGals program fosters these intergenerational activities on
-          a national scale through the development of local teen lead volunteer
-          chapters.
-        </p>
-      </div>
-      <div class="info">
-        <h1>Based Organizations Search2</h1>
-        <p>
-          The GlamourGals program fosters these intergenerational activities on
-          a national scale through the development of local teen lead volunteer
-          chapters.
-        </p>
-      </div>
-      <div class="info">
-        <h1>Based Organizations Search3</h1>
-        <p>
-          The GlamourGals program fosters these intergenerational activities on
-          a national scale through the development of local teen lead volunteer
-          chapters.
-        </p>
-      </div> -->
+    <div class="header">NYC Community Based Organizations Search</div>
+    <div class="grid" id="container">
     </div>
   </body>
 </html>
 <script>
   $(document).ready(function () {
-    const bgColorMap = {
-      STATENISLAND: '#85c7ba',
-      BRONX: '#fccd1c',
-      FLUSHING: '#e25d47',
-      BROOKLYN: '#678b99',
-      NEWYORK: '#e9909f',
-      MANHATTAN: '#77b6e4',
-      QUEEENS: '#f99360',
-      LONGISANDCITY: '#3f994e'
-    }
     let allData = []
     getAllData()
     function getAllData() {
@@ -100,144 +93,36 @@
         .then((data) => {
           console.log(data)
           allData = data
-          buildHtml(allData.splice(0, 10))
+          buildHtml(allData.splice(0, 20))
         })
         .catch((error) => console.log(error))
     }
     function buildHtml(data) {
-      data = data.map((e) => ({
-        ...e,
-        borough2: e.borough && e.borough.replace(/ /g, ''),
-        str: window.btoa(encodeURIComponent(JSON.stringify(e))) // choose field to pass
-      }))
-      let tmp1 = `<div class="box-wrap">
-        <div class="col-1">
-          <div class="row-1" data='${data[0].str}' style="background:${
-        bgColorMap[data[0].borough2] || '#fff'
-      }"></div>
-          <div class="row-1" data='${data[1].str}' style="background:${
-        bgColorMap[data[1].borough2] || '#fff'
-      }"></div>
-        </div>
-        <div class="col-2" data='${data[2].str}' style="background:${
-        bgColorMap[data[2].borough2] || '#fff'
-      }"></div>
-        <div class="col-1">
-          <div class="row-1" data='${data[3].str}' style="background:${
-        bgColorMap[data[3].borough2] || '#fff'
-      }"></div>
-          <div class="row-1"  data='${data[4].str}' style="background:${
-        bgColorMap[data[4].borough2] || '#fff'
-      }"></div>
-        </div>
-      </div>`
-      let tmp2 = `<div class="box-wrap type2">
-        <div class="col-1">
-          <div class="row-1" data='${data[5].str}' style="background:${
-        bgColorMap[data[5].borough2] || '#fff'
-      }"></div>
-          <div class="row-1" data='${data[6].str}' style="background:${
-        bgColorMap[data[6].borough2] || '#fff'
-      }"></div>
-        </div>
-        <div class="col-1">
-          <div class="row-1" data='${data[7].str}' style="background:${
-        bgColorMap[data[7].borough2] || '#fff'
-      }"></div>
-          <div class="row-1" data='${data[8].str}' style="background:${
-        bgColorMap[data[8].borough2] || '#fff'
-      }"></div>
-        </div>
-        <div class="col-2" data='${data[9].str}' style="background:${
-        bgColorMap[data[9].borough2] || '#fff'
-      }"></div>
-      </div>`
-      let html = tmp1 + tmp2
+      let html = data
+        .map((e, i) => {
+          let classname = 'grid-item'
+          // if (i % 2 == 0) classname = 'grid-item--width2' <p>${e.mission}</p>
+          return `<div class="${classname}">
+        <div class="tile">${e.city}</div>
+        <div class="box">${e.mission}</div>
+        <div class="street">${e.street_address}</div>
+        </div>`
+        })
+        .join('')
       $('#container').append(html)
+      var elem = document.querySelector('#container')
+      var iso = new Isotope(elem, {
+        // options
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        masonry: {
+          // use element for option
+          columnWidth: '.grid-item'
+        }
+      })
     }
-    $('#container').on('click', '.row-1,.col-2', function () {
-      let dataStr = $(this).attr('data')
-      const data = JSON.parse(decodeURIComponent(window.atob(dataStr)))
-      $('.row-1,.col-2').removeClass('active')
-      $(this).addClass('active')
-      let offset = $(this).offset()
-      let popup = $('.popup-detail').removeAttr('style')
-
-      if (data.borough) {
-        popup.addClass(data.borough.replace(/ /g, ''))
-      } else {
-        popup.addClass('wh')
-      }
-      let mission = $('<pre></pre>').html(data.mission).text()
-      let volunteer_program_description = $('<pre></pre>')
-        .html(data.volunteer_program_description)
-        .text()
-      const html = `<div class="tabs">
-        <div class="tab active">Overview</div>
-        <div class="tab">Location</div>
-        <div class="tab">Website</div>
-      </div>
-      <div class="info active">
-        <h1>${data.organization_name}</h1>
-        <strong>Mission</strong>
-        <p>${mission}</p>
-        <strong>Volunteer Program Description</strong>
-        <p>${volunteer_program_description}</p>
-      </div>
-      <div class="info">
-        <h1>${data.organization_name}</h1>
-        <strong>Street Address</strong>
-        <p>${data.street_address}</p>
-        <div class="city">
-          <div>
-            <strong>City</strong>
-            <p>${data.city}</p>
-          </div>
-          <div>
-            <strong>State</strong>
-            <p>${data.state}</p>
-          </div>
-        </div>
-        <strong>Postcode</strong>
-        <p>${data.postcode}</p>
-      </div>
-      <div class="info">
-        <h1>${data.organization_name}</h1>
-        <strong>Website</strong>
-        <p>${data.website.url}</p>
-      </div>`
-      popup.html(html)
-      $('.popup-mask').show()
-      if (offset.left + popup.width() < $(window).width()) {
-        popup
-          .css({
-            top: offset.top + $(this).height(),
-            left: offset.left
-          })
-          .show()
-      } else {
-        popup
-          .css({
-            top: offset.top + $(this).height(),
-            right: 0
-          })
-          .show()
-      }
-      let dis = offset.top + $(this).height() - $(document).scrollTop()
-      if (dis > $(window).height() / 2) {
-        let scrollHeight = $(document).scrollTop() + $(window).height() / 2
-        window.scrollTo(0, scrollHeight)
-      }
-      // window.location.href = './page2.html?data=' + data
-    })
-    $('.popup-mask').click(function () {
-      $(this).hide()
-      $('.popup-detail').hide().removeClass().addClass('popup-detail')
-    })
-    $('.popup-detail').on('click', '.tab', function () {
-      $(this).addClass('active').siblings().removeClass('active')
-      let index = $('.tab').index(this)
-      $('.info').hide().eq(index).show()
+    $('#container').on('click', '.grid-item', function () {
+      $(this).addClass('show')
     })
     //scroll append data
     $(window).scroll(function () {
@@ -246,7 +131,7 @@
         $(document).scrollTop() >=
         $(document).height() - $(window).height()
       ) {
-        buildHtml(allData.splice(0, 10))
+        buildHtml(allData.splice(0, 20))
       }
     })
   })
