@@ -8,19 +8,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.css"
-    />
     <link rel="stylesheet" href="./assets/font/stylesheet.css" />
     <link rel="stylesheet" href="./assets/font/stylesheet2.css" />
     <link rel="stylesheet" href="./assets/style.css" />
     <title>Dispaly</title>
     <script src="./assets/jq.min.js"></script>
-    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <style></style>
   </head>
   <body>
-    <a href="./page2.html"><div class="link">About</div></a>
     <div class="header">
       NYC Community <br />
       Based Organizations Search
@@ -32,9 +27,6 @@
       <div></div>
       <div></div>
       <div></div>
-    </div>
-    <div class="link" style="text-align: right">
-      <i class="fa-solid fa-arrow-right"></i>
     </div>
     <div class="mid">
       <div class="search-box">
@@ -50,7 +42,7 @@
           <li>STATEN ISLAND</li>
         </ul>
       </div>
-      <div id="clear">CLEAR</div>
+      <div>CLEAR</div>
     </div>
     <div class="grid" id="container"></div>
     <div class="popup-mask"></div>
@@ -60,6 +52,30 @@
         <div class="tab">Location</div>
         <div class="tab">Website</div>
       </div>
+      <!-- <div class="info">
+        <h1>Based Organizations Search1</h1>
+        <p>
+          The GlamourGals program fosters these intergenerational activities on
+          a national scale through the development of local teen lead volunteer
+          chapters.
+        </p>
+      </div>
+      <div class="info">
+        <h1>Based Organizations Search2</h1>
+        <p>
+          The GlamourGals program fosters these intergenerational activities on
+          a national scale through the development of local teen lead volunteer
+          chapters.
+        </p>
+      </div>
+      <div class="info">
+        <h1>Based Organizations Search3</h1>
+        <p>
+          The GlamourGals program fosters these intergenerational activities on
+          a national scale through the development of local teen lead volunteer
+          chapters.
+        </p>
+      </div> -->
     </div>
   </body>
 </html>
@@ -75,7 +91,6 @@
       QUEEENS: '#f99360',
       LONGISANDCITY: '#3f994e'
     }
-    let iso
     let allData = []
     getAllData()
     function getAllData() {
@@ -84,52 +99,10 @@
         .then((data) => {
           console.log(data)
           allData = data
-          buildHtml2(allData.splice(0, 20))
-          setTimeout(() => {
-            iso.layout()
-          }, 100)
+          buildHtml(allData.splice(0, 10))
         })
         .catch((error) => console.log(error))
     }
-    function buildHtml2(data) {
-      let html = data
-        .map((e, i) => {
-          let color = e.borough && e.borough.replace(/ /g, '')
-          let classname = bgColorMap[color] ? 'grid-item' : 'grid-item blk'
-          return `<div class="${classname}" style="background:${
-            bgColorMap[color] || '#fff'
-          }">
-            <div class="tile">${e.city}</div>
-            <div class="box">${e.mission}</div>
-            <div class="box box2">
-              <h4>Street Address</h4>
-              <p>${e.street_address}</p>
-              <h4>City</h4>
-              <p>${e.city}</p>
-              <h4>State</h4>
-              <p>${e.state}</p>
-              <h4>Postcode</h4>
-              <p>${e.postcode}</p>
-              <h4>Website</h4>
-              <p>${e.website.url}</p>
-            </div>
-            <div class="street">More</div>
-        </div>`
-        })
-        .join('')
-      $('#container').append(html)
-      var elem = document.querySelector('#container')
-      iso = new Isotope(elem, {
-        // options
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
-          // use element for option
-          columnWidth: '.grid-item'
-        }
-      })
-    }
-    // version1
     function buildHtml(data) {
       data = data.map((e) => ({
         ...e,
@@ -181,10 +154,6 @@
       let html = tmp1 + tmp2
       $('#container').append(html)
     }
-    $('#container').on('click', '.grid-item', function () {
-      $(this).addClass('show')
-    })
-    // version1
     $('#container').on('click', '.row-1,.col-2', function () {
       let dataStr = $(this).attr('data')
       const data = JSON.parse(decodeURIComponent(window.atob(dataStr)))
@@ -264,42 +233,20 @@
       $(this).hide()
       $('.popup-detail').hide().removeClass().addClass('popup-detail')
     })
-    // version1
     $('.popup-detail').on('click', '.tab', function () {
       $(this).addClass('active').siblings().removeClass('active')
       let index = $('.tab').index(this)
       $('.info').hide().eq(index).show()
     })
-    $('#container').on('click', '.show .street', function () {
-      //rotate
-      let box = $(this).siblings('.box')
-      if (box.hasClass('transform')) {
-        box.removeClass('transform')
-      } else {
-        box.addClass('transform')
-      }
-    })
     //scroll append data
     $(window).scroll(function () {
-      let scroll = $('.selct-value').text()
+      console.log('scroll')
       if (
-        scroll == 'SELECT' &&
-        $(document).scrollTop() >= $(document).height() - $(window).height()
+        $(document).scrollTop() >=
+        $(document).height() - $(window).height()
       ) {
-        buildHtml2(allData.splice(0, 20))
+        buildHtml(allData.splice(0, 10))
       }
-    })
-    $('.selct-option li').click(function () {
-      let dom = $(this)
-      $('.selct-value').text(dom.text())
-      let data = allData.filter((e) => e.borough == dom.text())
-      $('#container').html('')
-      buildHtml2(data)
-    })
-    $('#clear').click(function () {
-      $('.selct-value').text('SELECT')
-      $('#container').html('')
-      buildHtml2(allData)
     })
   })
 </script>

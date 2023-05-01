@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
+    />
+    <link rel="stylesheet" href="./assets/font/stylesheet2.css" />
+    <title>About</title>
+    <script src="./assets/jq.min.js"></script>
+    <style>
+      body {
+        min-height: 100vh;
+        background: url('./assets/about.jpg') no-repeat center;
+        background-size: cover;
+        color: #fff;
+        font-family: 'Myriad Web';
+      }
+      main {
+        width: 60vw;
+        margin: 100px auto;
+      }
+      .info {
+        font-size: 20px;
+        line-height: 30px;
+      }
+      h4 {
+        font-size: 30px;
+        margin-bottom: 10px;
+        font-style: italic;
+      }
+      .catege {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        margin-top: 60px;
+      }
+      .catege > div > p:first-child {
+        margin-bottom: 5px;
+        font-style: italic;
+      }
+      header {
+        display: flex;
+        font-size: 35px;
+        line-height: 70px;
+        justify-content: space-between;
+        font-style: italic;
+      }
+      header > div {
+        padding: 20px 100px;
+      }
+      header > div:hover {
+        cursor: pointer;
+      }
+      a {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>About</div>
+      <div><a href="./index.html">Home</a></div>
+    </header>
+    <main>
+      <div class="info">
+        <h4>About this Dataset</h4>
+        <p>
+          The view shows volunteer organizations in different areas of New York,
+          with different colors representing different areas, such as Manhattan,
+          Brooklyn, Flushing, Long Island City, etc. You can click on each grid
+          and learn the mission statement of each organization, and click again
+          on the button in the lower right corner to have the details pop up.
+          You can select the organization you are interested in and learn about
+          its volunteer opportunities.
+        </p>
+      </div>
+      <div class="catege">
+        <div>
+          <p>Updated</p>
+          <p>May 9, 2022</p>
+        </div>
+        <div>
+          <p>Metadata Last Updated</p>
+          <p>May 9, 2022</p>
+        </div>
+      </div>
+      <div class="catege">
+        <div>
+          <p>Data Last Updated</p>
+          <p>October 4, 2019</p>
+        </div>
+        <div>
+          <p>Date Created</p>
+          <p>October 4, 2019</p>
+        </div>
+      </div>
+      <div class="catege">
+        <div>
+          <p>Category</p>
+          <p>Social Services</p>
+        </div>
+      </div>
+      <div class="info" style="margin-top: 60px; font-style: italic">
+        <p>Tags</p>
+        <p>
+          volunteer, nonprofit, civic engagement, community based organization,
+          volunteers, volunteering, engagement, service
+        </p>
+      </div>
+    </main>
+  </body>
+</html>
