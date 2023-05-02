@@ -43,14 +43,14 @@
       <div class="search-box">
         <div class="selct-value">SELECT</div>
         <ul class="selct-option">
-          <li>NEW YORK</li>
-          <li>MANHATTAN</li>
-          <li>BROOKLYN</li>
-          <li>BRONX</li>
-          <li>QUEEENS</li>
-          <li>FLUSHING</li>
-          <li>LONG ISAND CITY</li>
-          <li>STATEN ISLAND</li>
+          <li val="New York">NEW YORK</li>
+          <li val="Manhattan">MANHATTAN</li>
+          <li val="Brooklyn">BROOKLYN</li>
+          <li val="Bronx">BRONX</li>
+          <li val="queens">QUEEENS</li>
+          <li val="Flushing">FLUSHING</li>
+          <li val="Long Island City">LONG ISAND CITY</li>
+          <li val="Staten Island">STATEN ISLAND</li>
         </ul>
       </div>
       <div id="clear">CLEAR</div>
@@ -296,7 +296,7 @@
     $('.selct-option li').click(function () {
       let dom = $(this)
       $('.selct-value').text(dom.text())
-      let data = allData.filter((e) => e.borough == dom.text())
+      let data = allData.filter((e) => e.city == dom.attr('val'))
       $('#container').html('')
       buildHtml2(data)
     })
