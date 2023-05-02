@@ -8,26 +8,37 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.css"
+    />
     <link rel="stylesheet" href="./assets/font/stylesheet.css" />
     <link rel="stylesheet" href="./assets/font/stylesheet2.css" />
     <link rel="stylesheet" href="./assets/style.css" />
     <title>Dispaly</title>
     <script src="./assets/jq.min.js"></script>
-    <style></style>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
   </head>
+  <style>
+    header {
+      display: flex;
+      font-size: 35px;
+      line-height: 70px;
+      justify-content: space-between;
+      font-style: italic;
+    }
+    header > div {
+      padding: 20px 100px;
+      text-decoration: underline;
+    }
+    header > div:hover {
+      cursor: pointer;
+    }
+  </style>
   <body>
-    <div class="header">
-      NYC Community <br />
-      Based Organizations Search
-    </div>
-    <div class="head-bg">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <header>
+      <div><a href="./index.html">Back</a></div>
+    </header>
     <div class="mid">
       <div class="search-box">
         <div class="selct-value">SELECT</div>
@@ -42,7 +53,7 @@
           <li>STATEN ISLAND</li>
         </ul>
       </div>
-      <div>CLEAR</div>
+      <div id="clear">CLEAR</div>
     </div>
     <div class="grid" id="container"></div>
     <div class="popup-mask"></div>
@@ -52,45 +63,22 @@
         <div class="tab">Location</div>
         <div class="tab">Website</div>
       </div>
-      <!-- <div class="info">
-        <h1>Based Organizations Search1</h1>
-        <p>
-          The GlamourGals program fosters these intergenerational activities on
-          a national scale through the development of local teen lead volunteer
-          chapters.
-        </p>
-      </div>
-      <div class="info">
-        <h1>Based Organizations Search2</h1>
-        <p>
-          The GlamourGals program fosters these intergenerational activities on
-          a national scale through the development of local teen lead volunteer
-          chapters.
-        </p>
-      </div>
-      <div class="info">
-        <h1>Based Organizations Search3</h1>
-        <p>
-          The GlamourGals program fosters these intergenerational activities on
-          a national scale through the development of local teen lead volunteer
-          chapters.
-        </p>
-      </div> -->
     </div>
   </body>
 </html>
 <script>
   $(document).ready(function () {
     const bgColorMap = {
-      STATENISLAND: '#85c7ba',
-      BRONX: '#fccd1c',
-      FLUSHING: '#e25d47',
-      BROOKLYN: '#678b99',
-      NEWYORK: '#e9909f',
-      MANHATTAN: '#77b6e4',
-      QUEEENS: '#f99360',
-      LONGISANDCITY: '#3f994e'
+      'Staten Island': '#85c7ba',
+      Bronx: '#fccd1c',
+      Flushing: '#e25d47',
+      Brooklyn: '#678b99',
+      'New York': '#e9909f',
+      Manhattan: '#77b6e4',
+      queens: '#f99360',
+      'Long Island City': '#3f994e'
     }
+    let iso
     let allData = []
     getAllData()
     function getAllData() {
@@ -99,10 +87,53 @@
         .then((data) => {
           console.log(data)
           allData = data
-          buildHtml(allData.splice(0, 10))
+          buildHtml2(allData.splice(0, 20))
+          setTimeout(() => {
+            iso.layout()
+          }, 100)
         })
         .catch((error) => console.log(error))
     }
+    function buildHtml2(data) {
+      let html = data
+        .map((e, i) => {
+          let color = e.city
+          let classname = bgColorMap[color] ? 'grid-item' : 'grid-item blk'
+          return `<div class="${classname}" style="background:${
+            bgColorMap[color] || '#fff'
+          }">
+            <div class="orgname">${e.organization_name}</div>
+            <div class="tile">${e.city}</div>
+            <div class="box">${e.mission}</div>
+            <div class="box box2">
+              <h4>Street Address</h4>
+              <p>${e.street_address}</p>
+              <h4>City</h4>
+              <p>${e.city}</p>
+              <h4>State</h4>
+              <p>${e.state}</p>
+              <h4>Postcode</h4>
+              <p>${e.postcode}</p>
+              <h4>Website</h4>
+              <p>${e.website.url}</p>
+            </div>
+            <div class="street">More</div>
+        </div>`
+        })
+        .join('')
+      $('#container').append(html)
+      var elem = document.querySelector('#container')
+      iso = new Isotope(elem, {
+        // options
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        masonry: {
+          // use element for option
+          columnWidth: '.grid-item'
+        }
+      })
+    }
+    // version1
     function buildHtml(data) {
       data = data.map((e) => ({
         ...e,
@@ -154,6 +185,10 @@
       let html = tmp1 + tmp2
       $('#container').append(html)
     }
+    $('#container').on('click', '.grid-item', function () {
+      $(this).addClass('show')
+    })
+    // version1
     $('#container').on('click', '.row-1,.col-2', function () {
       let dataStr = $(this).attr('data')
       const data = JSON.parse(decodeURIComponent(window.atob(dataStr)))
@@ -233,20 +268,42 @@
       $(this).hide()
       $('.popup-detail').hide().removeClass().addClass('popup-detail')
     })
+    // version1
     $('.popup-detail').on('click', '.tab', function () {
       $(this).addClass('active').siblings().removeClass('active')
       let index = $('.tab').index(this)
       $('.info').hide().eq(index).show()
     })
+    $('#container').on('click', '.show .street', function () {
+      //rotate
+      let box = $(this).siblings('.box')
+      if (box.hasClass('transform')) {
+        box.removeClass('transform')
+      } else {
+        box.addClass('transform')
+      }
+    })
     //scroll append data
     $(window).scroll(function () {
-      console.log('scroll')
+      let scroll = $('.selct-value').text()
       if (
-        $(document).scrollTop() >=
-        $(document).height() - $(window).height()
+        scroll == 'SELECT' &&
+        $(document).scrollTop() >= $(document).height() - $(window).height()
       ) {
-        buildHtml(allData.splice(0, 10))
+        buildHtml2(allData.splice(0, 20))
       }
+    })
+    $('.selct-option li').click(function () {
+      let dom = $(this)
+      $('.selct-value').text(dom.text())
+      let data = allData.filter((e) => e.borough == dom.text())
+      $('#container').html('')
+      buildHtml2(data)
+    })
+    $('#clear').click(function () {
+      $('.selct-value').text('SELECT')
+      $('#container').html('')
+      buildHtml2(allData)
     })
   })
 </script>

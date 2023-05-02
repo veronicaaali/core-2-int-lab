@@ -73,8 +73,23 @@ body {
 .grid-item > div {
   opacity: 0;
 }
+.grid-item .orgname {
+  opacity: 1;
+  color: #fff;
+  font-size: 40px;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.grid-item.blk .orgname {
+  color: #000;
+}
 .grid-item.show > div {
   opacity: 1;
+}
+.grid-item.show .orgname {
+  display: none;
 }
 /* 2 columns */
 .grid-item--width2 {
