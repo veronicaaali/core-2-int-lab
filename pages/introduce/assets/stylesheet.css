@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'RVS Basic Demo';
+  src: url('RVSBasicDemo-Regular.eot');
+  src: url('RVSBasicDemo-Regular.eot?#iefix') format('embedded-opentype'),
+    url('RVSBasicDemo-Regular.woff2') format('woff2'),
+    url('RVSBasicDemo-Regular.woff') format('woff'),
+    url('RVSBasicDemo-Regular.ttf') format('truetype'),
+    url('RVSBasicDemo-Regular.svg#RVSBasicDemo-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+html,
+body {
+  font-family: 'RVS Basic Demo';
+  padding: 0 100px 100px;
+  font-size: 20px;
+}
+.website {
+  font-size: 40px;
+  line-height: 50px;
+  display: flex;
+  margin-top: 178px;
+}
+.video {
+  margin: 87px auto;
+}
+.video video,
+.video img {
+  width: 71vw;
+}
+.pic {
+  display: flex;
+  margin-top: 100px;
+}
+.pic img {
+  width: 50%;
+  margin: 0 20px;
+}
+.pic.sp img {
+  width: 33.33%;
+  margin: 0 20px;
+}
