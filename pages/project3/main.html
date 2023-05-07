@@ -34,6 +34,18 @@
     header > div:hover {
       cursor: pointer;
     }
+    @media screen and (max-width: 800px) {
+      .mid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .mid > div {
+        width: 80vw;
+      }
+      .grid-item {
+        width: 50%;
+      }
+    }
   </style>
   <body>
     <header>
@@ -44,12 +56,12 @@
         <div class="selct-value">SELECT</div>
         <ul class="selct-option">
           <li val="New York">NEW YORK</li>
-          <li val="Manhattan">MANHATTAN</li>
+          <!-- <li val="Manhattan">MANHATTAN</li> -->
           <li val="Brooklyn">BROOKLYN</li>
           <li val="Bronx">BRONX</li>
           <li val="queens">QUEEENS</li>
           <li val="Flushing">FLUSHING</li>
-          <li val="Long Island City">LONG ISAND CITY</li>
+          <li val="Long Island City">LONG ISLAND CITY</li>
           <li val="Staten Island">STATEN ISLAND</li>
         </ul>
       </div>
@@ -117,7 +129,10 @@
               <h4>Website</h4>
               <p>${e.website.url}</p>
             </div>
-            <div class="street">More</div>
+            <div class="street">
+              <span class="back">Back</span>
+              <span class="more">More</span>
+              </div>
         </div>`
         })
         .join('')
@@ -274,15 +289,21 @@
       let index = $('.tab').index(this)
       $('.info').hide().eq(index).show()
     })
-    $('#container').on('click', '.show .street', function () {
+    $('#container').on('click', '.show .street>.more', function () {
       //rotate
-      let box = $(this).siblings('.box')
+      let box = $(this).parent().siblings('.box')
       if (box.hasClass('transform')) {
         box.removeClass('transform')
       } else {
         box.addClass('transform')
       }
     })
+    $('#container').on('click', '.show .street>.back', function (event) {
+      //rotate
+      event.stopPropagation()
+      $(this).parents('.grid-item').removeClass('show')
+    })
+    //
     //scroll append data
     $(window).scroll(function () {
       let scroll = $('.selct-value').text()
@@ -296,7 +317,12 @@
     $('.selct-option li').click(function () {
       let dom = $(this)
       $('.selct-value').text(dom.text())
-      let data = allData.filter((e) => e.city == dom.attr('val'))
+      let data = allData.filter((e) => {
+        if (e.city == 'Manhattan' && dom.attr('val') == 'New York') {
+          return true
+        }
+        return e.city == dom.attr('val')
+      })
       $('#container').html('')
       buildHtml2(data)
     })

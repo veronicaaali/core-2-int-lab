@@ -1,5 +1,5 @@
 :root {
-  --with: 18vw;
+  --with: 14vw;
 }
 * {
   box-sizing: border-box;
@@ -13,7 +13,7 @@ body {
   scroll-behavior: smooth;
   width: 100%;
   position: relative;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   font-family: 'Azedo-B';
 }
 .header {
@@ -35,29 +35,35 @@ body {
   left: 50%;
   transform: translate(-50%, 0) rotate(-10deg);
   display: flex;
-  width: calc(var(--with) * 6);
+  width: calc(var(--with) * 8);
 }
 .head-bg div {
   width: var(--with);
   height: 350px;
 }
 .head-bg div:nth-child(1) {
-  background: #ee1c25;
+  background: #fccd1f;
 }
 .head-bg div:nth-child(2) {
-  background: #f36523;
+  background: #84c6b8;
 }
 .head-bg div:nth-child(3) {
-  background: #ffde15;
+  background: #e15d48;
 }
 .head-bg div:nth-child(4) {
-  background: #0ba14a;
+  background: #e890a0;
 }
 .head-bg div:nth-child(5) {
-  background: #21409a;
+  background: #77b5e4;
 }
 .head-bg div:nth-child(6) {
-  background: #7f3e98;
+  background: #f89261;
+}
+.head-bg div:nth-child(7) {
+  background: #41994f;
+}
+.head-bg div:nth-child(8) {
+  background: #678b99;
 }
 .grid-sizer,
 .grid-item {
@@ -77,6 +83,7 @@ body {
   opacity: 1;
   color: #fff;
   font-size: 40px;
+  word-break: break-word;
   padding: 20px;
   position: absolute;
   top: 0;
@@ -136,13 +143,17 @@ body {
 .street {
   color: #fff;
   padding: 10px 5px;
+  display: flex;
+  justify-content: space-between;
   font-size: 24px;
   font-style: italic;
-  text-decoration: underline;
   line-height: 20px;
   height: 50px;
   text-align: right;
   border-top: 2px solid #ddd;
+}
+.street span:nth-child(2) {
+  text-decoration: underline;
 }
 .box.box2 {
   position: absolute;
@@ -170,6 +181,7 @@ body {
 }
 .box2 p {
   font-size: 18px;
+  word-break: break-all;
 }
 .box-wrap {
   display: flex;
@@ -370,10 +382,31 @@ div.search-box:hover .selct-option {
   font-size: 40px;
   line-height: 67px;
   height: 80px;
-  padding: 0 100px;
+  padding: 0 10vw;
   cursor: pointer;
   margin-top: 20px;
 }
 .link:hover {
   text-decoration: underline;
+}
+@media screen and (max-width: 1200px) {
+  .grid-item {
+    width: 25%;
+  }
+}
+@media screen and (max-width: 1000px) {
+  :root {
+    --with: 14vw;
+  }
+  .header {
+    width: 80vw;
+    font-size: 5vw;
+  }
+  .head-bg > div {
+    width: var(--with);
+    height: 450px;
+  }
+  .grid-item {
+    width: 33.33%;
+  }
 }
